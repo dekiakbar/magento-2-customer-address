@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Deki\CustomerAddress\Api\CityRepositoryInterface" type="Deki\CustomerAddress\Model\CityRepository"/>
+	<preference for="Deki\CustomerAddress\Api\Data\CityInterface" type="Deki\CustomerAddress\Model\Data\City"/>
+	<preference for="Deki\CustomerAddress\Api\Data\CitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Deki\CustomerAddress\Model\ResourceModel\City\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">deki_customeraddress_city</argument>
+			<argument name="resourceModel" xsi:type="string">Deki\CustomerAddress\Model\ResourceModel\City\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="deki_customeraddress_city_listing_data_source" xsi:type="string">Deki\CustomerAddress\Model\ResourceModel\City\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+	<type name="Magento\Framework\Console\CommandList">
+		<arguments>
+			<argument name="commands" xsi:type="array">
+				<item name="region_list" xsi:type="object">Deki\CustomerAddress\Console\Command\RegionList</item>
+				<item name="import_region" xsi:type="object">Deki\CustomerAddress\Console\Command\ImportRegion</item>
+			</argument>
+		</arguments>
+	</type>
+</config>

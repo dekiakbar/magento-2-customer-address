@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+    <add id="Deki_CustomerAddress::city" title="Customer Address" translate="title" module="Deki_Core" sortOrder="100" resource="Deki_CustomerAddress::city" parent="Deki_Core::deki"/>
+		<add id="Deki_CustomerAddress::deki_customeraddress_city" title="City Data" translate="title" module="Deki_CustomerAddress" sortOrder="10" resource="Deki_CustomerAddress::city" parent="Deki_CustomerAddress::city" action="deki_customeraddress/city/index"/>
+    <add id="Deki_CustomerAddress::deki_customeraddress_city_config" title="Configuration" translate="title" module="Deki_CustomerAddress" sortOrder="20" resource="Deki_CustomerAddress::config_deki_customeraddress" parent="Deki_CustomerAddress::city" action="adminhtml/system_config/edit/section/customeraddress"/>
+  </menu>
+</config>

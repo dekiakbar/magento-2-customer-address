@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+	<route url="/V1/deki-customeraddress/city" method="POST">
+		<service class="Deki\CustomerAddress\Api\CityRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Deki_CustomerAddress::city_save"/>
+		</resources>
+	</route>
+	<route url="/V1/deki-customeraddress/city/search" method="GET">
+		<service class="Deki\CustomerAddress\Api\CityRepositoryInterface" method="getList"/>
+		<resources>
+			<resource ref="Deki_CustomerAddress::city_view"/>
+		</resources>
+	</route>
+	<route url="/V1/deki-customeraddress/city/:cityId" method="GET">
+		<service class="Deki\CustomerAddress\Api\CityRepositoryInterface" method="get"/>
+		<resources>
+			<resource ref="Deki_CustomerAddress::city_view"/>
+		</resources>
+	</route>
+	<route url="/V1/deki-customeraddress/city/:cityId" method="PUT">
+		<service class="Deki\CustomerAddress\Api\CityRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Deki_CustomerAddress::city_update"/>
+		</resources>
+	</route>
+	<route url="/V1/deki-customeraddress/city/:cityId" method="DELETE">
+		<service class="Deki\CustomerAddress\Api\CityRepositoryInterface" method="deleteById"/>
+		<resources>
+			<resource ref="Deki_CustomerAddress::city_delete"/>
+		</resources>
+	</route>
+</routes>
