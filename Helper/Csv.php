@@ -201,12 +201,12 @@ class Csv extends AbstractHelper
                 }
 
                 if($regionSaveState === false){
-                    $this->saveRegion($csvData);
+                    $regionId = $this->saveRegion($csvData);
                     $regionSaveState = true;
                     $lastRegionCode = $csvData[self::COLUMN_INDEX_OF_REGION_CODE];
                 }
-                
-                $this->saveCity($csvData);
+                $regionId = $this->regionModel->loadByCode($csvData[self::COLUMN_INDEX_OF_REGION_CODE], $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID])->getId();
+                $this->saveCity($csvData, $regionId);
             }
         }
 
@@ -234,14 +234,16 @@ class Csv extends AbstractHelper
      * Save csv data to city table
      *
      * @param array $csvData
+     * @param string $regionId
      * @return \Deki\CustomerAddress\Model\Data\City
      * @throws \Exception
      * @throws \Magento\Framework\Exception\AlreadyExistsException
      */
-    public function saveCity(array $csvData)
+    public function saveCity(array $csvData, $regionId)
     {
         $cityObject = $this->cityInterfaceFactory->create();
-        $cityObject->setRegionCode($csvData[self::COLUMN_INDEX_OF_REGION_CODE]);
+        $cityObject->setCountryId($csvData[self::COLUMN_INDEX_OF_COUNTRY_ID]);
+        $cityObject->setRegionId($regionId);
         $cityObject->setName($csvData[self::COLUMN_INDEX_OF_CITY_NAME]);
         $cityObject->setPostcode($csvData[self::COLUMN_INDEX_OF_POST_CODE]);
         return $this->cityRepository->save($cityObject);

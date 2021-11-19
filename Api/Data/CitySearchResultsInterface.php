@@ -17,7 +17,7 @@ interface CitySearchResultsInterface extends \Magento\Framework\Api\SearchResult
     public function getItems();
 
     /**
-     * Set region_code list.
+     * Set region_id list.
      * @param \Deki\CustomerAddress\Api\Data\CityInterface[] $items
      * @return $this
      */

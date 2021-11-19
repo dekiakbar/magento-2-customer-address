@@ -40,22 +40,22 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
     }
 
     /**
-     * Get region_code
+     * Get region_id
      * @return string|null
      */
-    public function getRegionCode()
+    public function getRegionId()
     {
-        return $this->_get(self::REGION_CODE);
+        return $this->_get(self::REGION_ID);
     }
 
     /**
-     * Set region_code
-     * @param string $regionCode
+     * Set region_id
+     * @param string $regionId
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
-    public function setRegionCode($regionCode)
+    public function setRegionId($regionId)
     {
-        return $this->setData(self::REGION_CODE, $regionCode);
+        return $this->setData(self::REGION_ID, $regionId);
     }
 
     /**
@@ -132,6 +132,25 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
     public function setCreatedAt($createdAt)
     {
         return $this->setData(self::CREATED_AT, $createdAt);
+    }
+
+    /**
+     * Get country_id
+     * @return string|null
+     */
+    public function getCountryId()
+    {
+        return $this->_get(self::COUNTRY_ID);
+    }
+
+    /**
+     * Set country_id
+     * @param string $countryId
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
+     */
+    public function setCountryId($countryId)
+    {
+        return $this->setData(self::COUNTRY_ID, $countryId);
     }
 }
 

@@ -76,31 +76,45 @@
 				<label translate="true">ID</label>
 			</settings>
 		</column>
-		<column name="region_code">
-			<settings>
-				<filter>text</filter>
-				<label translate="true">Region Code</label>
-				<editor>
-					<editorType>text</editorType>
-					<validation>
-						<rule name="required-entry" xsi:type="boolean">true</rule>
-					</validation>
-				</editor>
-			</settings>
-		</column>
-		<column name="name">
+		<column name="country_id">
+        <argument name="data" xsi:type="array">
+            <item name="options" xsi:type="object">Magento\Directory\Model\Config\Source\Country</item>
+            <item name="config" xsi:type="array">
+                <item name="filter" xsi:type="string">select</item>
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                <item name="dataType" xsi:type="string">select</item>
+                <item name="sorting" xsi:type="string">asc</item>
+                <item name="sortOrder" xsi:type="number">10</item>
+                <item name="label" translate="true" xsi:type="string">Country</item>
+            </item>
+        </argument>
+    </column>
+		<column name="region_id">
+        <argument name="data" xsi:type="array">
+            <item name="options" xsi:type="object">Magento\Directory\Model\ResourceModel\Region\Collection</item>
+            <item name="config" xsi:type="array">
+                <item name="filter" xsi:type="string">select</item>
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                <item name="dataType" xsi:type="string">select</item>
+                <item name="sorting" xsi:type="string">asc</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+                <item name="label" translate="true" xsi:type="string">Region</item>
+            </item>
+        </argument>
+    </column>
+		<column name="name" sortOrder="30">
 			<settings>
 				<filter>text</filter>
 				<label translate="true">Name</label>
 				<editor>
 					<editorType>text</editorType>
 					<validation>
-						<rule name="required-entry" xsi:type="boolean">true</rule>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
 					</validation>
 				</editor>
 			</settings>
 		</column>
-		<column name="postcode">
+		<column name="postcode" sortOrder="40">
 			<settings>
 				<filter>text</filter>
 				<label translate="true">Postcode</label>
@@ -112,21 +126,20 @@
 				</editor>
 			</settings>
 		</column>
-		<column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+		<column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="50">
 			<settings>
 				<filter>dateRange</filter>
 				<dataType>date</dataType>
 				<label translate="true">Modified</label>
 			</settings>
 		</column>
-		<column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+		<column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="60">
 			<settings>
-				<filter>dateRange</filter>
-				<dataType>date</dataType>
+				<filter>text</filter>
 				<label translate="true">Created</label>
 			</settings>
 		</column>
-		<actionsColumn name="actions" class="Deki\CustomerAddress\Ui\Component\Listing\Column\CityActions">
+		<actionsColumn name="actions" class="Deki\CustomerAddress\Ui\Component\Listing\Column\CityActions" sortOrder="70">
 			<settings>
 				<indexField>city_id</indexField>
 				<resizeEnabled>false</resizeEnabled>

@@ -32,24 +32,33 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
     }
 
     /**
-     * Get region_code
+     * Get region_id
      * @return string|null
      */
-    public function getRegionCode()
+    public function getRegionId()
     {
-        return $this->_get(self::REGION_CODE);
+        return $this->_get(self::REGION_ID);
     }
 
     /**
-     * Set region_code
-     * @param string $regionCode
+     * Set region_id
+     * @param string $regionId
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
-    public function setRegionCode($regionCode)
+    public function setRegionId($regionId)
     {
-        return $this->setData(self::REGION_CODE, $regionCode);
+        return $this->setData(self::REGION_ID, $regionId);
     }
 
+    /**
+     * Retrieve existing extension attributes object or create a new one.
+     * @return \Deki\CustomerAddress\Api\Data\CityExtensionInterface|null
+     */
+    public function getExtensionAttributes()
+    {
+        return $this->_getExtensionAttributes();
+    }
+    
     /**
      * Get name
      * @return string|null
@@ -124,5 +133,24 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
     public function setCreatedAt($createdAt)
     {
         return $this->setData(self::CREATED_AT, $createdAt);
+    }
+
+    /**
+     * Get country_id
+     * @return string|null
+     */
+    public function getCountryId()
+    {
+        return $this->_get(self::COUNTRY_ID);
+    }
+
+    /**
+     * Set country_id
+     * @param string $countryId
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
+     */
+    public function setCountryId($countryId)
+    {
+        return $this->setData(self::COUNTRY_ID, $countryId);
     }
 }

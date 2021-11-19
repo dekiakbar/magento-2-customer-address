@@ -7,13 +7,14 @@ declare(strict_types=1);
 
 namespace Deki\CustomerAddress\Api\Data;
 
-interface CityInterface
+interface CityInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
 
+    const COUNTRY_ID = 'country_id';
     const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';
+    const REGION_ID = 'region_id';
     const CITY_ID = 'city_id';
-    const REGION_CODE = 'region_code';
     const POSTCODE = 'postcode';
     const NAME = 'name';
 
@@ -26,22 +27,22 @@ interface CityInterface
     /**
      * Set city_id
      * @param string $cityId
-     * @return \Api\Data\CityInterface
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setCityId($cityId);
 
     /**
-     * Get region_code
+     * Get region_id
      * @return string|null
      */
-    public function getRegionCode();
+    public function getRegionId();
 
     /**
-     * Set region_code
-     * @param string $regionCode
-     * @return \Api\Data\CityInterface
+     * Set region_id
+     * @param string $regionId
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
-    public function setRegionCode($regionCode);
+    public function setRegionId($regionId);
 
     /**
      * Get name
@@ -52,7 +53,7 @@ interface CityInterface
     /**
      * Set name
      * @param string $name
-     * @return \Api\Data\CityInterface
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setName($name);
 
@@ -65,7 +66,7 @@ interface CityInterface
     /**
      * Set postcode
      * @param string $postcode
-     * @return \Api\Data\CityInterface
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setPostcode($postcode);
 
@@ -78,7 +79,7 @@ interface CityInterface
     /**
      * Set updated_at
      * @param string $updatedAt
-     * @return \Api\Data\CityInterface
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setUpdatedAt($updatedAt);
 
@@ -91,8 +92,20 @@ interface CityInterface
     /**
      * Set created_at
      * @param string $createdAt
-     * @return \Api\Data\CityInterface
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setCreatedAt($createdAt);
-}
 
+    /**
+     * Get country_id
+     * @return string|null
+     */
+    public function getCountryId();
+
+    /**
+     * Set country_id
+     * @param string $countryId
+     * @return \Deki\CustomerAddress\Api\Data\CityInterface
+     */
+    public function setCountryId($countryId);
+}

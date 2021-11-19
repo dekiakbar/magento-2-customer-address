@@ -48,11 +48,19 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $tableDekiCustomeraddressCity->addColumn(
-            'region_code',
+            'country_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            255,
+            4,
             ['nullable' => False],
-            'region_code'
+            'country_id'
+        );
+
+        $tableDekiCustomeraddressCity->addColumn(
+            'region_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            ['nullable' => false,'unsigned' => true,],
+            'region_id'
         );
 
         $tableDekiCustomeraddressCity->addColumn(
@@ -91,8 +99,14 @@ class InstallSchema implements InstallSchemaInterface
 
         $setup->getConnection()->addIndex(
             $setup->getTable($cityTable),
-            $setup->getIdxName($cityTable, ['region_code']),
-            ['region_code']
+            $setup->getIdxName($cityTable, ['country_id']),
+            ['country_id']
+        );
+
+        $setup->getConnection()->addIndex(
+            $setup->getTable($cityTable),
+            $setup->getIdxName($cityTable, ['region_id']),
+            ['region_id']
         );
 
         $setup->getConnection()->addIndex(

@@ -31,9 +31,9 @@ class CityRepository implements CityRepositoryInterface
 
     protected $extensionAttributesJoinProcessor;
 
-    protected $extensibleDataObjectConverter;
     protected $dataCityFactory;
 
+    protected $extensibleDataObjectConverter;
     protected $resource;
 
     protected $cityCollectionFactory;
