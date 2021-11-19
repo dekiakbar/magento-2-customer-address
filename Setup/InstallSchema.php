@@ -30,60 +30,77 @@ class InstallSchema implements InstallSchemaInterface
   /**
    * {@inheritdoc}
    */
-  public function install(
-      SchemaSetupInterface $setup,
-      ModuleContextInterface $context
-  ) {
-      $table_deki_customeraddress_city = $setup->getConnection()->newTable($setup->getTable('deki_customeraddress_city'));
+    public function install(
+        SchemaSetupInterface $setup,
+        ModuleContextInterface $context
+    ) {
+        $setup->startSetup();
 
-      $table_deki_customeraddress_city->addColumn(
-          'city_id',
-          \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-          null,
-          ['identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,],
-          'Entity ID'
-      );
+        $cityTable = $setup->getTable('deki_customeraddress_city');
+        $tableDekiCustomeraddressCity = $setup->getConnection()->newTable($cityTable);
 
-      $table_deki_customeraddress_city->addColumn(
-          'region_code',
-          \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-          255,
-          ['nullable' => False],
-          'region_code'
-      );
+        $tableDekiCustomeraddressCity->addColumn(
+            'city_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            ['identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,],
+            'Entity ID'
+        );
 
-      $table_deki_customeraddress_city->addColumn(
-          'name',
-          \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-          255,
-          ['nullable' => False],
-          'name'
-      );
+        $tableDekiCustomeraddressCity->addColumn(
+            'region_code',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            255,
+            ['nullable' => False],
+            'region_code'
+        );
 
-      $table_deki_customeraddress_city->addColumn(
-          'postcode',
-          \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-          20,
-          [],
-          'postcode'
-      );
+        $tableDekiCustomeraddressCity->addColumn(
+            'name',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            255,
+            ['nullable' => False],
+            'name'
+        );
 
-      $table_deki_customeraddress_city->addColumn(
-          'updated_at',
-          \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
-          null,
-          [],
-          'updated_at'
-      );
+        $tableDekiCustomeraddressCity->addColumn(
+            'postcode',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            20,
+            [],
+            'postcode'
+        );
 
-      $table_deki_customeraddress_city->addColumn(
-          'created_at',
-          \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
-          null,
-          [],
-          'created_at'
-      );
+        $tableDekiCustomeraddressCity->addColumn(
+            'updated_at',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            null,
+            ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],
+            'updated_at'
+        );
 
-      $setup->getConnection()->createTable($table_deki_customeraddress_city);
-  }
+        $tableDekiCustomeraddressCity->addColumn(
+            'created_at',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            null,
+            ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+            'created_at'
+        );
+
+        $setup->getConnection()->createTable($tableDekiCustomeraddressCity);
+
+        $setup->getConnection()->addIndex(
+            $setup->getTable($cityTable),
+            $setup->getIdxName($cityTable, ['region_code']),
+            ['region_code']
+        );
+
+        $setup->getConnection()->addIndex(
+            $setup->getTable($cityTable),
+            $setup->getIdxName($cityTable, ['name']),
+            ['name']
+        );
+        
+        $setup->endSetup();
+    }
 }

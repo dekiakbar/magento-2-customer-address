@@ -48,10 +48,10 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">region_code</label>
+				<label translate="true">Region</label>
 				<dataScope>region_code</dataScope>
 				<validation>
-					<rule name="required-entry" xsi:type="boolean">false</rule>
+					<rule name="required-entry" xsi:type="boolean">true</rule>
 				</validation>
 			</settings>
 		</field>
@@ -63,10 +63,10 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">name</label>
+				<label translate="true">Name</label>
 				<dataScope>name</dataScope>
 				<validation>
-					<rule name="required-entry" xsi:type="boolean">false</rule>
+					<rule name="required-entry" xsi:type="boolean">true</rule>
 				</validation>
 			</settings>
 		</field>
@@ -78,7 +78,7 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">postcode</label>
+				<label translate="true">Postcode</label>
 				<dataScope>postcode</dataScope>
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>

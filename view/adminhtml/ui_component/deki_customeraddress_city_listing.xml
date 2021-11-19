@@ -79,13 +79,51 @@
 		<column name="region_code">
 			<settings>
 				<filter>text</filter>
-				<label translate="true">region_code</label>
+				<label translate="true">Region Code</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">true</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="name">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Name</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">true</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="postcode">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Postcode</label>
 				<editor>
 					<editorType>text</editorType>
 					<validation>
 						<rule name="required-entry" xsi:type="boolean">false</rule>
 					</validation>
 				</editor>
+			</settings>
+		</column>
+		<column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+			<settings>
+				<filter>dateRange</filter>
+				<dataType>date</dataType>
+				<label translate="true">Modified</label>
+			</settings>
+		</column>
+		<column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+			<settings>
+				<filter>dateRange</filter>
+				<dataType>date</dataType>
+				<label translate="true">Created</label>
 			</settings>
 		</column>
 		<actionsColumn name="actions" class="Deki\CustomerAddress\Ui\Component\Listing\Column\CityActions">
@@ -95,29 +133,5 @@
 				<resizeDefaultWidth>107</resizeDefaultWidth>
 			</settings>
 		</actionsColumn>
-		<column name="name">
-			<settings>
-				<filter>text</filter>
-				<label translate="true">name</label>
-				<editor>
-					<editorType>text</editorType>
-					<validation>
-						<rule name="required-entry" xsi:type="boolean">false</rule>
-					</validation>
-				</editor>
-			</settings>
-		</column>
-		<column name="postcode">
-			<settings>
-				<filter>text</filter>
-				<label translate="true">postcode</label>
-				<editor>
-					<editorType>text</editorType>
-					<validation>
-						<rule name="required-entry" xsi:type="boolean">false</rule>
-					</validation>
-				</editor>
-			</settings>
-		</column>
 	</columns>
 </listing>

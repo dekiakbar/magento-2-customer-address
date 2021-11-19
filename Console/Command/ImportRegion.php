@@ -37,13 +37,11 @@ class ImportRegion extends Command
             try {
                 $startTime = microtime(true);
                 
-                // do your magic
-                sleep(2);
-                $output->writeln($region);
+                $this->csvHelper->importRegion($region);
 
                 $resultTime = microtime(true) - $startTime;
                 $output->writeln(
-                    __('has been rebuilt successfully in %time', ['time' => gmdate('H:i:s', (int) $resultTime)])
+                    __('Region and city with country code %country has been successfully imported in %time', ['time' => gmdate('H:i:s', (int) $resultTime), 'country' => $region])
                 );
             } catch (\Throwable $e) {
                 $output->writeln('process error during importing process:');
@@ -53,7 +51,9 @@ class ImportRegion extends Command
                 $returnValue = Cli::RETURN_FAILURE;
             }
         }
-
+        $output->writeln(
+            __('<info>DONE!</info>')
+        );
         return $returnValue;
     }
 
@@ -78,29 +78,23 @@ class ImportRegion extends Command
      * Returns the ordered list of regions.
      *
      * @param InputInterface $input
-     * @return array
+     * @return array $regions
      * @throws \InvalidArgumentException
      */
     protected function getRegions(InputInterface $input)
     {
-        $requestedTypes = [];
+        $requestedRegions = [];
         if ($input->getArgument(self::INPUT_REGION_KEY)) {
-            $requestedTypes = $input->getArgument(self::INPUT_REGION_KEY);
-            $requestedTypes = array_filter(array_map('trim', $requestedTypes), 'strlen');
+            $requestedRegions = $input->getArgument(self::INPUT_REGION_KEY);
+            $requestedRegions = array_filter(array_map('trim', $requestedRegions), 'strlen');
         }
 
-        if (empty($requestedTypes)) {
+        if (empty($requestedRegions)) {
             $regions = $this->csvHelper->getRegionList();
         } else {
             $availableRegions = $this->csvHelper->getRegionList();
-            $unsupportedTypes = array_diff($requestedTypes, $availableRegions);
-            if ($unsupportedTypes) {
-                throw new \InvalidArgumentException(
-                    "The following requested region are not supported: '" . join("', '", $unsupportedTypes)
-                    . "'." . PHP_EOL . 'Supported types: ' . join(", ", $availableRegions)
-                );
-            }
-            $regions = array_intersect_key($availableRegions, array_flip($requestedTypes));
+            $this->csvHelper->validateRequestedRegions($requestedRegions, $availableRegions);
+            $regions = array_intersect_key($availableRegions, $requestedRegions);
         }
 
         return $regions;
