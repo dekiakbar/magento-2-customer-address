@@ -13,6 +13,9 @@ class Save extends \Magento\Backend\App\Action
 {
 
     protected $dataPersistor;
+    protected $commonHelper;
+    protected $csv;
+    protected $regionModel;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
@@ -20,9 +23,15 @@ class Save extends \Magento\Backend\App\Action
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
+        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor,
+        \Deki\CustomerAddress\Helper\Common $commonHelper,
+        \Deki\CustomerAddress\Helper\Csv $csv,
+        \Magento\Directory\Model\Region $regionModel
     ) {
         $this->dataPersistor = $dataPersistor;
+        $this->commonHelper = $commonHelper;
+        $this->csv = $csv;
+        $this->regionModel = $regionModel;
         parent::__construct($context);
     }
 
@@ -36,6 +45,7 @@ class Save extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         $data = $this->getRequest()->getPostValue();
+
         if ($data) {
             $id = $this->getRequest()->getParam('city_id');
         
@@ -46,7 +56,22 @@ class Save extends \Magento\Backend\App\Action
             }
         
             $model->setData($data);
-        
+            
+            $regionId = $this->getRequest()->getParam('region_id');
+            $region = $this->getRequest()->getParam('region');
+            if(isset($region) && empty($regionId)){
+                $regionCode = $this->commonHelper->buildRegionCodeFromName($this->getRequest()->getParam('country_id') ,$region);
+                $countryId = $this->getRequest()->getParam('country_id');
+                
+                if($this->commonHelper->isRegionExistByCode($countryId, $regionCode)){
+                    $regionId = $this->regionModel->loadByCode($regionCode, $countryId)->getId();
+                    $model->setRegionId($regionId);
+                }else{
+                    $newRegionId = $this->commonHelper->saveNewRegion($countryId, $regionCode, $region);
+                    $model->setRegionId($newRegionId);
+                }
+            }
+
             try {
                 $model->save();
                 $this->messageManager->addSuccessMessage(__('You saved the City.'));

@@ -41,6 +41,7 @@ class Csv extends AbstractHelper
      * @var \Magento\Directory\Model\Region
      */
     protected $regionModel;
+
     /**
      * @var \Magento\Directory\Model\ResourceModel\Region
      */
@@ -67,6 +68,8 @@ class Csv extends AbstractHelper
      * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      * @param \Magento\Framework\Filesystem\Driver\File $driverFile
      * @param \Magento\Directory\Model\Region $regionModel
+     * @param \Magento\Directory\Model\ResourceModel\Region $resourceRegion,
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory,
      * @param \Deki\CustomerAddress\Api\Data\CityInterfaceFactory $cityInterfaceFactory
      * @param \Deki\CustomerAddress\Model\CityRepository $cityRepository
      */
