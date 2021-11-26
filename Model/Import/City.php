@@ -12,15 +12,20 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';
     const TABLE_ENTITY= 'deki_customeraddress_city';
+    
     /**
-     * Validation failure message template definitions
+     * Validation failure city template definitions
      *
      * @var array
      */
     protected $_messageTemplates = [
         ValidatorInterface::ERROR_MESSAGE_IS_EMPTY => 'Message is empty',
     ];
-    
+
+    /**
+     *
+     * @var array
+     */
     protected $_permanentAttributes = [self::ID];
     
     /**
@@ -52,13 +57,14 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected $logInHistory = true;
 
-    protected $_validators = [];
-
     /**
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
+    /**
+     * @var \Magento\Framework\App\ResourceConnection
+     */
     protected $_resource;
 
     /**
@@ -115,7 +121,7 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     }
 
     /**
-     * Create Advanced message data from raw data.
+     * Create Advanced city data from raw data.
      *
      * @throws \Exception
      * @return bool Result of operation.
@@ -127,7 +133,7 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     }
 
     /**
-     * Save Message
+     * Save city
      *
      * @return $this
      */
@@ -138,7 +144,7 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     }
 
     /**
-     * Save and replace data message
+     * Save and replace data city
      *
      * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -171,27 +177,38 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     self::CREATED_AT => $rowData[self::CREATED_AT]
                 ];
             }
+            
+            $rewCreated = []; 
+            $rowUpdated = [];
+            $rewDeleted = [];
             if (\Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE == $behavior) {
                 if ($listTitle) {
-                    if ($this->deleteEntityFinish(array_unique(  $listTitle), self::TABLE_ENTITY)) {
-                        $this->saveEntityFinish($entityList, self::TABLE_ENTITY);
+                    if ($this->deleteEntityDb(array_unique($listTitle), self::TABLE_ENTITY)) {
+                        $this->saveEntityDb($entityList, self::TABLE_ENTITY);
+                        $rowUpdated = $entityList;
                     }
                 }
             } elseif (\Magento\ImportExport\Model\Import::BEHAVIOR_APPEND == $behavior) {
-                $this->saveEntityFinish($entityList, self::TABLE_ENTITY);
+                $this->saveEntityDb($entityList, self::TABLE_ENTITY);
+                $rewCreated = $entityList;
+            } elseif (\Magento\ImportExport\Model\Import::BEHAVIOR_DELETE == $behavior) {
+                $this->deleteEntityDb(array_unique($listTitle), self::TABLE_ENTITY);
+                $rewDeleted = $listTitle;
             }
         }
+
+        $this->updateItemsCounterStats($rewCreated, $rowUpdated, $rewDeleted);
         return $this;
     }
 
     /**
-     * Save message to customtable.
+     * Save city to customtable.
      *
-     * @param array $priceData
+     * @param array $entityData
      * @param string $table
      * @return $this
      */
-    protected function saveEntityFinish(array $entityData, $table)
+    protected function saveEntityDb(array $entityData, $table)
     {
         if ($entityData) {
             $tableName = $this->_connection->getTableName($table);
@@ -216,6 +233,41 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 );
             }
         }
+        return $this;
+    }
+
+    /**
+     * Save city to customtable.
+     *
+     * @param array $entityData
+     * @param string $table
+     * @return $this
+     */
+    public function deleteEntityDb(array $listTitle, $table)
+    {
+        if ($listTitle) {
+            $tableName = $this->_connection->getTableName($table);
+            $this->_connection->delete(
+                $tableName,
+                self::ID." IN (".implode(",", $listTitle).")"
+            );
+        }
+        return $this;
+    }
+
+    /**
+     * Update proceed items counter
+     *
+     * @param array $created
+     * @param array $updated
+     * @param array $deleted
+     * @return $this
+     */
+    protected function updateItemsCounterStats(array $created = [], array $updated = [], array $deleted = [])
+    {
+        $this->countItemsCreated = count($created);
+        $this->countItemsUpdated = count($updated);
+        $this->countItemsDeleted = count($deleted);
         return $this;
     }
 }
