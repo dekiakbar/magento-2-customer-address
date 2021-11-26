@@ -24,4 +24,12 @@
 			</argument>
 		</arguments>
 	</type>
+	<!-- Import Sample Data -->
+	<type name="Magento\ImportExport\Model\Import\SampleFileProvider">
+		<arguments>
+				<argument name="samples" xsi:type="array">
+						<item name="deki_customeraddress" xsi:type="string">Deki_CustomerAddress</item>
+				</argument>
+		</arguments>
+	</type>
 </config>

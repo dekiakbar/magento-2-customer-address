@@ -69,8 +69,8 @@ class ConvertToCsv
 
         // md5() here is not for cryptographic use.
         // phpcs:ignore Magento2.Security.InsecureFunction
-        $name = md5(microtime());
-        $file = 'export/'. $component->getName() . $name . '.csv';
+        $fileName = $component->getName()."_".date("d_m_Y_H_i_s").".csv";
+        $file = 'export/'. $fileName;
 
         $this->filter->prepareComponent($component);
         $this->filter->applySelectionOnTargetProvider();

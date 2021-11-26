@@ -3,6 +3,8 @@
 	<module name="Deki_CustomerAddress" setup_version="1.0.0">
 		<sequence>
 			<module name="Deki_Core"/>
+			<module name="Magento_ImportExport"/>
+			<module name="Magento_Directory"/>
 		</sequence>
 	</module>
 </config>

@@ -67,7 +67,9 @@ class GridToCsv extends Action
      */
     public function execute()
     {
-        return $this->fileFactory->create('export.csv', $this->converter->getCsvFile(), 'var');
+        $component = $this->filter->getComponent();
+        $fileName = $component->getName()."_".date("d_m_Y_H_i_s").".csv";
+        return $this->fileFactory->create($fileName, $this->converter->getCsvFile(), 'var');
     }
 
     /**

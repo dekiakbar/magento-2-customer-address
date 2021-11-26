@@ -127,10 +127,8 @@
          */
         applyOption: function () {
             var option = this.getActiveOption(),
-                url = this.buildOptionUrl(option);
-
+            url = this.buildOptionUrl(option);
             location.href = url;
-
         }
     });
 });
