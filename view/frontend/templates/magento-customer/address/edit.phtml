@@ -145,7 +145,7 @@ $viewModel = $block->getViewModel();
                        value="<?= $escaper->escapeHtmlAttr($block->getAddress()->getCity()) ?>"
                        title="<?= $escaper->escapeHtmlAttr(__('City')) ?>"
                        class="input-text <?= $escaper->escapeHtmlAttr($_cityValidationClass) ?>"
-                       id="city" data-mage-init='{"city-search":{}}'>
+                       id="city">
             </div>
         </div>
         <div class="field zip required">
@@ -232,6 +232,15 @@ $viewModel = $block->getViewModel();
                 "defaultRegion": "<?= (int) $block->getRegionId() ?>",
                 "countriesWithOptionalZip": <?= /* @noEscape */ $viewModel->dataGetCountriesWithOptionalZip(true) ?>
             }
+        },
+        "#city": {
+            "city-search": {
+                "enablePostcode": <?=
+                    /* @noEscape */ $block->getConfig('customeraddress/general/enable_postcode') ? 'true' : 'false'
+                ?>,
+                "minLength": <?= /* @noEscape */ $block->getConfig('customeraddress/general/minimum_search_length') ?>
+            }
         }
+
     }
 </script>

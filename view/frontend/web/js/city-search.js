@@ -10,9 +10,12 @@ define([
             autocomplete: 'off',
             minSearchLength: 3,
         },
-
-        _create: function () {
+        _create: function() {
+            this._initElement();
+        },
+        _initElement: function () {
             this.element.attr('autocomplete', this.options.autocomplete);
+            var that = this;
             $(this.element).autocomplete({
                 source: function( request, response ) {
                     var regionId = $("#region_id").val();
@@ -28,18 +31,23 @@ define([
                                 response($.map( data, function( item ) {
                                     return {
                                         label: item.name,
-                                        value: item.name
+                                        value: item.name,
+                                        postcode: item.postcode
                                     }
                                 }));
-                                // response( data );
                             }
                         });
                     }
                 },
-                minLength: 3,
                 open: function(event, ui) {
                     $('.ui-menu').width($(event.target).outerWidth());
                 },
+                select: function (event, ui) {
+                    if(that.options.enablePostcode){
+                        $("input#zip").val(ui.item.postcode);
+                    }
+                },
+                minLength: that.options.minLength
             });
         }
     });

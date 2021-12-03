@@ -3,7 +3,9 @@
 	<default>
 		<customeraddress>
 			<general>
-				<module_status>1</module_status>
+				<enable>1</enable>
+				<enable_postcode>1</enable_postcode>
+				<minimum_search_length>4</minimum_search_length>
 			</general>
 		</customeraddress>
 	</default>

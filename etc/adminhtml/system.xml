@@ -10,10 +10,19 @@
 			<resource>Deki_CustomerAddress::config_deki_customeraddress</resource>
 			<group id="general" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
 				<label>General</label>
-				<field id="module_status" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<field id="enable" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
 					<label>Module Status</label>
 					<comment>Enable or Disable this module</comment>
 					<source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+				</field>
+				<field id="enable_postcode" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Auto Fill Postcode</label>
+					<comment>If this enable, and selected city has postcode, the postcode form will auto filled</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="minimum_search_length" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Minimun Search Length</label>
+					<comment>How manty character for triggering search city request</comment>
 				</field>
 			</group>
 		</section>
