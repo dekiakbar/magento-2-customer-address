@@ -59,4 +59,3 @@ interface CityRepositoryInterface
      */
     public function deleteById($cityId);
 }
-

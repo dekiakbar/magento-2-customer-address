@@ -38,4 +38,3 @@ class NewAction extends \Deki\CustomerAddress\Controller\Adminhtml\City
         return $resultForward->forward('edit');
     }
 }
-

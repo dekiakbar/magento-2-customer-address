@@ -62,4 +62,3 @@ class InlineEdit extends \Magento\Backend\App\Action
         ]);
     }
 }
-

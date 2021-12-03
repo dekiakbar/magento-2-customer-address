@@ -52,16 +52,19 @@ class Common extends AbstractHelper
      */
     public function buildRegionCodeFromName($countryId, $regionName)
     {
-        if(empty($regionName) || empty($countryId)) return false;
+        if (empty($regionName) || empty($countryId)) {
+            return false;
+        }
 
         $words = preg_split("/\s+/", $regionName);
         $result = implode(
             "",
             array_map(
-                function($word){
-                    return strtoupper(ucwords(substr($word,0,1)));
-                }
-            ,$words)
+                function ($word) {
+                    return strtoupper(ucwords(substr($word, 0, 1)));
+                },
+                $words
+            )
         );
 
         return $countryId."-".$result;
@@ -79,11 +82,17 @@ class Common extends AbstractHelper
      */
     public function saveNewRegion($countryId, $regionCode, $regionName)
     {
-        if(!$countryId) throw new LocalizedException(__("Country Id is missing"));
-        if(!$regionCode) throw new LocalizedException(__("Region Code is missing"));
-        if(!$regionName) throw new LocalizedException(__("region Name is missing"));
+        if (!$countryId) {
+            throw new LocalizedException(__("Country Id is missing"));
+        }
+        if (!$regionCode) {
+            throw new LocalizedException(__("Region Code is missing"));
+        }
+        if (!$regionName) {
+            throw new LocalizedException(__("region Name is missing"));
+        }
 
-        if($this->isRegionExistByCode($countryId, $regionCode)){
+        if ($this->isRegionExistByCode($countryId, $regionCode)) {
             throw new AlreadyExistsException(__("Region exist"));
         }
 
@@ -105,10 +114,9 @@ class Common extends AbstractHelper
     public function isRegionExistByCode($countryId, $regionCode)
     {
         $region = $this->regionModel->loadByCode($regionCode, $countryId);
-        if($region->getId()){
+        if ($region->getId()) {
             return true;
         }
         return false;
     }
 }
-

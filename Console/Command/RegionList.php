@@ -19,7 +19,7 @@ class RegionList extends Command
 
     public function __construct(
         \Deki\CustomerAddress\Helper\Csv $csvHelper
-    ){
+    ) {
         $this->csvHelper = $csvHelper;
         parent::__construct();
     }
@@ -31,19 +31,19 @@ class RegionList extends Command
         InputInterface $input,
         OutputInterface $output
     ) {
-        try{
+        try {
             $files = $this->csvHelper->getRegionList();
-            if(count($files) > 0){
+            if (count($files) > 0) {
                 $output->writeln("<info>Available CSV file :</info>");
-                foreach($files as $file){
+                foreach ($files as $file) {
                     $output->writeln("- ".$file);
                 }
                 $output->writeln("use available region list for import, example :");
                 $output->writeln("<info>php bin/magento customer-address:import-region ID</info>");
-            }else{
+            } else {
                 $output->writeln("<error>No CSV file found in : ".$this->csvHelper->getFilesDirectory()."</error>");
             }
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $output->writeln("<error>Spmething wrong happened: ".$e->getMessage()."</error>");
         }
     }

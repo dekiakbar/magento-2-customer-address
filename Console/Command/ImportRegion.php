@@ -20,7 +20,7 @@ class ImportRegion extends Command
 
     public function __construct(
         \Deki\CustomerAddress\Helper\Csv $csvHelper
-    ){
+    ) {
         $this->csvHelper = $csvHelper;
         parent::__construct();
     }
@@ -41,7 +41,10 @@ class ImportRegion extends Command
 
                 $resultTime = microtime(true) - $startTime;
                 $output->writeln(
-                    __('Region and city with country code %country has been successfully imported in %time', ['time' => gmdate('H:i:s', (int) $resultTime), 'country' => $region])
+                    __(
+                        'Region and city with country code %country has been successfully imported in %time',
+                        ['time' => gmdate('H:i:s', (int) $resultTime), 'country' => $region]
+                    )
                 );
             } catch (\Throwable $e) {
                 $output->writeln('process error during importing process:');

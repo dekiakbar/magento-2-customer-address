@@ -15,7 +15,6 @@ class Csv extends AbstractHelper
 {
     const CSV_FOLDER = "Files";
     const ALLOWED_FILE_EXTENSION = ".csv";
-
     const COLUMN_INDEX_OF_COUNTRY_ID = 0;
     const COLUMN_INDEX_OF_REGION_CODE = 1;
     const COLUMN_INDEX_OF_REGION_NAME = 2;
@@ -63,6 +62,11 @@ class Csv extends AbstractHelper
     protected $cityRepository;
 
     /**
+     * @var \Magento\Framework\Filesystem\Io\File
+     */
+    protected $fileSystemIo;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\File\Csv $csv
      * @param \Magento\Framework\Module\Dir\Reader $moduleReader
@@ -72,6 +76,7 @@ class Csv extends AbstractHelper
      * @param \Magento\Directory\Model\RegionFactory $regionFactory,
      * @param \Deki\CustomerAddress\Api\Data\CityInterfaceFactory $cityInterfaceFactory
      * @param \Deki\CustomerAddress\Model\CityRepository $cityRepository
+     * @param \Magento\Framework\Filesystem\Io\File $fileSystemIo
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -82,7 +87,8 @@ class Csv extends AbstractHelper
         \Magento\Directory\Model\ResourceModel\Region $resourceRegion,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Deki\CustomerAddress\Api\Data\CityInterfaceFactory $cityInterfaceFactory,
-        \Deki\CustomerAddress\Model\CityRepository $cityRepository
+        \Deki\CustomerAddress\Model\CityRepository $cityRepository,
+        \Magento\Framework\Filesystem\Io\File $fileSystemIo
     ) {
         parent::__construct($context);
         $this->csv = $csv;
@@ -93,6 +99,7 @@ class Csv extends AbstractHelper
         $this->regionFactory = $regionFactory;
         $this->cityInterfaceFactory = $cityInterfaceFactory;
         $this->cityRepository = $cityRepository;
+        $this->fileSystemIo = $fileSystemIo;
     }
 
     /**
@@ -130,11 +137,12 @@ class Csv extends AbstractHelper
     {
         $paths = $this->getFileFullPathList();
         $files = [];
-        foreach($paths as $path){
+        foreach ($paths as $path) {
             if (strpos(strtolower($path), self::ALLOWED_FILE_EXTENSION) !== false) {
                 $partsOfPath = explode('/', str_replace('\\', '/', $path));
                 $fileName = $partsOfPath[count($partsOfPath) - 1];
-                $files[] = basename($fileName, '.csv');
+                $fileInfo = $this->fileSystemIo->getPathInfo($fileName);
+                $files[] = $fileInfo['filename'];
             }
         }
 
@@ -177,7 +185,9 @@ class Csv extends AbstractHelper
     {
         $isFile = $this->driverFile->isFile($path);
         $isExist = $this->driverFile->isExists($path);
-        if(!$isFile || !$isExist) throw new LocalizedException(__("File not found."));
+        if (!$isFile || !$isExist) {
+            throw new LocalizedException(__("File not found."));
+        }
         return true;
     }
 
@@ -190,7 +200,9 @@ class Csv extends AbstractHelper
      */
     public function importRegion($regionFileName)
     {
-        if(!isset($regionFileName)) throw new LocalizedException(__("Argument regionFileName is missing."));
+        if (!isset($regionFileName)) {
+            throw new LocalizedException(__("Argument regionFileName is missing."));
+        }
         $fullPathRegionFile = $this->getFilesDirectory()."/".$regionFileName.self::ALLOWED_FILE_EXTENSION;
         $this->isRegionFileExist($fullPathRegionFile);
         $csvDatas = $this->csv->getData($fullPathRegionFile);
@@ -198,17 +210,20 @@ class Csv extends AbstractHelper
         $regionSaveState = false;
         $lastRegionCode = '';
         foreach ($csvDatas as $row => $csvData) {
-            if($row > 0){
-                if($lastRegionCode !== $csvData[self::COLUMN_INDEX_OF_REGION_CODE]){
+            if ($row > 0) {
+                if ($lastRegionCode !== $csvData[self::COLUMN_INDEX_OF_REGION_CODE]) {
                     $regionSaveState = false;
                 }
 
-                if($regionSaveState === false){
+                if ($regionSaveState === false) {
                     $regionId = $this->saveRegion($csvData);
                     $regionSaveState = true;
                     $lastRegionCode = $csvData[self::COLUMN_INDEX_OF_REGION_CODE];
                 }
-                $regionId = $this->regionModel->loadByCode($csvData[self::COLUMN_INDEX_OF_REGION_CODE], $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID])->getId();
+                $regionId = $this->regionModel->loadByCode(
+                    $csvData[self::COLUMN_INDEX_OF_REGION_CODE],
+                    $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID]
+                )->getId();
                 $this->saveCity($csvData, $regionId);
             }
         }
@@ -217,7 +232,7 @@ class Csv extends AbstractHelper
     }
 
     /**
-     * Save csv data to region 
+     * Save csv data to region
      *
      * @param array $csvData
      * @return string
@@ -252,4 +267,3 @@ class Csv extends AbstractHelper
         return $this->cityRepository->save($cityObject);
     }
 }
-

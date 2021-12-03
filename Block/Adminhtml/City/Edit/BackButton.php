@@ -35,4 +35,3 @@ class BackButton extends GenericButton implements ButtonProviderInterface
         return $this->getUrl('*/*/');
     }
 }
-

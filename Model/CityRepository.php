@@ -20,32 +20,19 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Reflection\DataObjectProcessor;
-use Magento\Store\Model\StoreManagerInterface;
 
 class CityRepository implements CityRepositoryInterface
 {
-
     protected $dataObjectHelper;
-
     protected $cityFactory;
-
     protected $extensionAttributesJoinProcessor;
-
     protected $dataCityFactory;
-
     protected $extensibleDataObjectConverter;
     protected $resource;
-
     protected $cityCollectionFactory;
-
     protected $dataObjectProcessor;
-
     private $collectionProcessor;
-
-    private $storeManager;
-
     protected $searchResultsFactory;
-
 
     /**
      * @param ResourceCity $resource
@@ -55,7 +42,6 @@ class CityRepository implements CityRepositoryInterface
      * @param CitySearchResultsInterfaceFactory $searchResultsFactory
      * @param DataObjectHelper $dataObjectHelper
      * @param DataObjectProcessor $dataObjectProcessor
-     * @param StoreManagerInterface $storeManager
      * @param CollectionProcessorInterface $collectionProcessor
      * @param JoinProcessorInterface $extensionAttributesJoinProcessor
      * @param ExtensibleDataObjectConverter $extensibleDataObjectConverter
@@ -68,7 +54,6 @@ class CityRepository implements CityRepositoryInterface
         CitySearchResultsInterfaceFactory $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
-        StoreManagerInterface $storeManager,
         CollectionProcessorInterface $collectionProcessor,
         JoinProcessorInterface $extensionAttributesJoinProcessor,
         ExtensibleDataObjectConverter $extensibleDataObjectConverter
@@ -80,7 +65,6 @@ class CityRepository implements CityRepositoryInterface
         $this->dataObjectHelper = $dataObjectHelper;
         $this->dataCityFactory = $dataCityFactory;
         $this->dataObjectProcessor = $dataObjectProcessor;
-        $this->storeManager = $storeManager;
         $this->collectionProcessor = $collectionProcessor;
         $this->extensionAttributesJoinProcessor = $extensionAttributesJoinProcessor;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
@@ -92,11 +76,6 @@ class CityRepository implements CityRepositoryInterface
     public function save(
         \Deki\CustomerAddress\Api\Data\CityInterface $city
     ) {
-        /* if (empty($city->getStoreId())) {
-            $storeId = $this->storeManager->getStore()->getId();
-            $city->setStoreId($storeId);
-        } */
-        
         $cityData = $this->extensibleDataObjectConverter->toNestedArray(
             $city,
             [],
@@ -184,4 +163,3 @@ class CityRepository implements CityRepositoryInterface
         return $this->delete($this->get($cityId));
     }
 }
-

@@ -39,4 +39,3 @@ abstract class City extends \Magento\Backend\App\Action
         return $resultPage;
     }
 }
-

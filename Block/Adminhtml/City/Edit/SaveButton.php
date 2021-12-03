@@ -28,4 +28,3 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
         ];
     }
 }
-

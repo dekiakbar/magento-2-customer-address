@@ -59,14 +59,17 @@ class Save extends \Magento\Backend\App\Action
             
             $regionId = $this->getRequest()->getParam('region_id');
             $region = $this->getRequest()->getParam('region');
-            if(isset($region) && empty($regionId)){
-                $regionCode = $this->commonHelper->buildRegionCodeFromName($this->getRequest()->getParam('country_id') ,$region);
+            if (isset($region) && empty($regionId)) {
+                $regionCode = $this->commonHelper->buildRegionCodeFromName(
+                    $this->getRequest()->getParam('country_id'),
+                    $region
+                );
                 $countryId = $this->getRequest()->getParam('country_id');
                 
-                if($this->commonHelper->isRegionExistByCode($countryId, $regionCode)){
+                if ($this->commonHelper->isRegionExistByCode($countryId, $regionCode)) {
                     $regionId = $this->regionModel->loadByCode($regionCode, $countryId)->getId();
                     $model->setRegionId($regionId);
-                }else{
+                } else {
                     $newRegionId = $this->commonHelper->saveNewRegion($countryId, $regionCode, $region);
                     $model->setRegionId($newRegionId);
                 }
@@ -93,4 +96,3 @@ class Save extends \Magento\Backend\App\Action
         return $resultRedirect->setPath('*/*/');
     }
 }
-

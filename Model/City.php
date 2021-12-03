@@ -153,4 +153,3 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
         return $this->setData(self::COUNTRY_ID, $countryId);
     }
 }
-

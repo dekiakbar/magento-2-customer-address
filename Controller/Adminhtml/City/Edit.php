@@ -57,8 +57,8 @@ class Edit extends \Deki\CustomerAddress\Controller\Adminhtml\City
             $id ? __('Edit City') : __('New City')
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Citys'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? __('Edit City (ID: %1)', $model->getId()) : __('New City'));
+        $resultPage->getConfig()->getTitle()->prepend($model->getId() ?
+            __('Edit City (ID: %1)', $model->getId()) : __('New City'));
         return $resultPage;
     }
 }
-

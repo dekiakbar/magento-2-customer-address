@@ -1,7 +1,9 @@
 <?php
 namespace Deki\CustomerAddress\Model\Import;
+
 use Deki\CustomerAddress\Model\Import\Validator\RowValidatorInterface as ValidatorInterface;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingErrorAggregatorInterface;
+
 class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 {
     const ID = 'city_id';
@@ -78,7 +80,7 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Model\ResourceModel\Helper $resourceHelper,
         \Magento\Framework\Stdlib\StringUtils $string,
         ProcessingErrorAggregatorInterface $errorAggregator
-    ){
+    ) {
         $this->jsonHelper = $jsonHelper;
         $this->_importExportData = $importExportData;
         $this->_resourceHelper = $resourceHelper;
@@ -178,7 +180,7 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 ];
             }
             
-            $rewCreated = []; 
+            $rewCreated = [];
             $rowUpdated = [];
             $rewDeleted = [];
             if (\Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE == $behavior) {
@@ -221,7 +223,8 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             if ($entityIn) {
                 $this->_connection->insertOnDuplicate(
                     $tableName,
-                    $entityIn,[
+                    $entityIn,
+                    [
                         self::ID,
                         self::COUNTRY_ID,
                         self::REGION_ID,

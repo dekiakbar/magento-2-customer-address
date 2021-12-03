@@ -1,5 +1,6 @@
 <?php
 namespace Deki\CustomerAddress\Model\Import\Validator;
+
 interface RowValidatorInterface extends \Magento\Framework\Validator\ValidatorInterface
 {
     const ERROR_TITLE_IS_EMPTY= 'InvalidValueTITLE';

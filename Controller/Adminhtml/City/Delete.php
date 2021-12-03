@@ -44,4 +44,3 @@ class Delete extends \Deki\CustomerAddress\Controller\Adminhtml\City
         return $resultRedirect->setPath('*/*/');
     }
 }
-

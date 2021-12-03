@@ -20,4 +20,3 @@ class City extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $this->_init('deki_customeraddress_city', 'city_id');
     }
 }
-

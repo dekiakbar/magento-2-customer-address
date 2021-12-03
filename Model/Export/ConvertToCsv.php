@@ -14,6 +14,7 @@ use Deki\CustomerAddress\Model\ResourceModel\City;
 
 /**
  * Class ConvertToCsv
+ * Convert data to csv file
  */
 class ConvertToCsv
 {
@@ -37,7 +38,6 @@ class ConvertToCsv
      */
     protected $cityResource;
 
-
     /**
      * @param Filesystem $filesystem
      * @param Filter $filter
@@ -48,8 +48,8 @@ class ConvertToCsv
     public function __construct(
         Filesystem $filesystem,
         Filter $filter,
-        $pageSize = 200,
-        City $cityResource
+        City $cityResource,
+        $pageSize = 200
     ) {
         $this->filter = $filter;
         $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);

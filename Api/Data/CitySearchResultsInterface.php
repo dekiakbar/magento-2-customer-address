@@ -23,4 +23,3 @@ interface CitySearchResultsInterface extends \Magento\Framework\Api\SearchResult
      */
     public function setItems(array $items);
 }
-
