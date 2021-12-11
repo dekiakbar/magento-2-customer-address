@@ -8,5 +8,16 @@
 				<minimum_search_length>4</minimum_search_length>
 			</general>
 		</customeraddress>
+
+		<!-- fix : The Content-Security-Policy directive 'frame-ancestors' does not support the source expression ''unsafe-inline'' -->
+		<csp>
+			<policies>
+					<storefront>
+							<frame-ancestors>
+									<inline>0</inline>
+							</frame-ancestors>
+					</storefront>
+			</policies>
+		</csp>
 	</default>
 </config>

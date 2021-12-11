@@ -1,6 +1,6 @@
 var config = {
     paths: {
-        'city-search': 'Deki_CustomerAddress/js/city-search'
+        'city-autocomplete': 'Deki_CustomerAddress/js/customer/address/city-autocomplete'
     },
     config: {
         mixins: {

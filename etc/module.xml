@@ -5,6 +5,7 @@
 			<module name="Deki_Core"/>
 			<module name="Magento_ImportExport"/>
 			<module name="Magento_Directory"/>
+			<module name="Magento_Checkout"/>
 		</sequence>
 	</module>
 </config>

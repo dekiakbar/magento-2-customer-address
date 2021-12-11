@@ -30,6 +30,9 @@ class Common extends AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Directory\Model\Region $regionModel,
+     * @param \Magento\Directory\Model\ResourceModel\Region $resourceRegion,
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,

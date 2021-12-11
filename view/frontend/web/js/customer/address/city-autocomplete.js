@@ -5,7 +5,7 @@ define([
 ], function ($,urlbuild) {
     'use strict';
 
-    $.widget('namespace.widgetname', {
+    $.widget('city.SearchAutocomplete', {
         options: {
             autocomplete: 'off',
             minSearchLength: 3,
@@ -40,7 +40,7 @@ define([
                     }
                 },
                 open: function(event, ui) {
-                    $('.ui-menu').width($(event.target).outerWidth());
+                    $('.ui-front.ui-menu').width($(event.target).outerWidth());
                 },
                 select: function (event, ui) {
                     if(that.options.enablePostcode){
@@ -52,5 +52,5 @@ define([
         }
     });
 
-    return $.namespace.widgetname;
+    return $.city.SearchAutocomplete;
 });
