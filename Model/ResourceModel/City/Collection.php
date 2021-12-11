@@ -36,6 +36,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * @param string $query
      * @param int $regionId
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function searchByQueryRegionId($query, $regionId)
     {
@@ -50,5 +51,21 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->addFieldToFilter('main_table.region_id', ["eq" => $regionId]);
         
         return $this;
+    }
+
+    /**
+     * Insert multiple city data
+     *
+     * @param array $cities
+     * @return int
+     * @throws InvalidArgumentException
+     */
+    public function insertMultiple($cities)
+    {
+        if (empty($cities)) {
+            throw new InvalidArgumentException(__("can't insert NULL"));
+        }
+
+        return $this->getConnection()->insertMultiple($this->getMainTable(), $cities);
     }
 }

@@ -20,6 +20,7 @@ class Csv extends AbstractHelper
     const COLUMN_INDEX_OF_REGION_NAME = 2;
     const COLUMN_INDEX_OF_CITY_NAME = 3;
     const COLUMN_INDEX_OF_POST_CODE = 4;
+    const REGION_ID_COLUMN_NAME = 'region_id';
 
     /**
      * @var \Magento\Framework\File\Csv
@@ -66,6 +67,8 @@ class Csv extends AbstractHelper
      */
     protected $fileSystemIo;
 
+    protected $cityCollection;
+
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\File\Csv $csv
@@ -88,7 +91,8 @@ class Csv extends AbstractHelper
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Deki\CustomerAddress\Api\Data\CityInterfaceFactory $cityInterfaceFactory,
         \Deki\CustomerAddress\Model\CityRepository $cityRepository,
-        \Magento\Framework\Filesystem\Io\File $fileSystemIo
+        \Magento\Framework\Filesystem\Io\File $fileSystemIo,
+        \Deki\CustomerAddress\Model\ResourceModel\City\Collection $cityCollection
     ) {
         parent::__construct($context);
         $this->csv = $csv;
@@ -100,6 +104,7 @@ class Csv extends AbstractHelper
         $this->cityInterfaceFactory = $cityInterfaceFactory;
         $this->cityRepository = $cityRepository;
         $this->fileSystemIo = $fileSystemIo;
+        $this->cityCollection = $cityCollection;
     }
 
     /**
@@ -197,6 +202,7 @@ class Csv extends AbstractHelper
      * @param string $regionFileName
      * @return bool
      * @throws LocalizedException
+     * @throws InvalidArgumentException
      */
     public function importRegion($regionFileName)
     {
@@ -209,6 +215,7 @@ class Csv extends AbstractHelper
 
         $regionSaveState = false;
         $lastRegionCode = '';
+        $cities = [];
         foreach ($csvDatas as $row => $csvData) {
             if ($row > 0) {
                 if ($lastRegionCode !== $csvData[self::COLUMN_INDEX_OF_REGION_CODE]) {
@@ -224,10 +231,17 @@ class Csv extends AbstractHelper
                     $csvData[self::COLUMN_INDEX_OF_REGION_CODE],
                     $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID]
                 )->getId();
-                $this->saveCity($csvData, $regionId);
+
+                $cities[] = [
+                    $csvDatas[0][self::COLUMN_INDEX_OF_COUNTRY_ID] => $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID],
+                    self::REGION_ID_COLUMN_NAME => $regionId,
+                    $csvDatas[0][self::COLUMN_INDEX_OF_CITY_NAME] => $csvData[self::COLUMN_INDEX_OF_CITY_NAME],
+                    $csvDatas[0][self::COLUMN_INDEX_OF_POST_CODE] => $csvData[self::COLUMN_INDEX_OF_POST_CODE]
+                ];
             }
         }
 
+        $this->cityCollection->insertMultiple($cities);
         return true;
     }
 
