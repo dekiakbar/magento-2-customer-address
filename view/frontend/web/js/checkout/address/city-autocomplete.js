@@ -4,9 +4,10 @@ define([
     'mage/url',
     'ko',
     'Magento_Checkout/js/model/quote',
+    'Magento_Checkout/js/checkout-data',
     'jquery',
     'jquery/ui'
-], function (Abstract, urlbuild, ko, quote, $) {
+], function (Abstract, urlbuild, ko, quote, checkoutData, $) {
     'use strict';
     ko.bindingHandlers.cityAutoComplete = {
         init: function (element, valueAccessor) {
@@ -42,7 +43,11 @@ define([
     return Abstract.extend({
         selectedCity: ko.observable(''),
         getCities: function( request, response ) {
-            var regionId = quote.shippingAddress().regionId;
+            if(checkoutData.getShippingAddressFromData()){
+                var regionId = checkoutData.getShippingAddressFromData().region_id;
+            }else{
+                var regionId = quote.shippingAddress().regionId;
+            }
             if(isNaN(regionId) === false){
                 $.ajax( {
                     url: urlbuild.build('customeraddress/city/search'),
