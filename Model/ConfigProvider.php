@@ -33,9 +33,9 @@ class ConfigProvider implements ConfigProviderInterface
     public function getConfig()
     {
         $config = [];
-        $config['customerAddress']['postcodeEnabled'] = $this->configHelper->isPostcodeEnabled();
+        $config['customerAddress']['postcodeEnabled'] = $this->configHelper->isPostcodeEnabled() ? true : false;
         $config['customerAddress']['minimunSearcLength'] = $this->configHelper->getMinimunSearcLength();
-
+        $config['customerAddress']['isForceCityEnabled'] = $this->configHelper->isForceCityEnabled() ? true : false;
         return $config;
     }
 }

@@ -6,6 +6,7 @@
 				<enable>1</enable>
 				<enable_postcode>1</enable_postcode>
 				<minimum_search_length>4</minimum_search_length>
+				<force_select_city>1</force_select_city>
 			</general>
 		</customeraddress>
 

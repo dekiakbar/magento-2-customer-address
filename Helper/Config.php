@@ -15,6 +15,7 @@ class Config extends AbstractHelper
     const ENABLE = 'customeraddress/general/enable';
     const ENABLE_POSTCODE = 'customeraddress/general/enable_postcode';
     const MINIMUM_SEARCH_LENGTH = 'customeraddress/general/minimum_search_length';
+    const FORCE_SELECT_CITY = 'customeraddress/general/force_select_city';
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -55,5 +56,13 @@ class Config extends AbstractHelper
     public function getMinimunSearcLength()
     {
         return $this->scopeConfig->getValue(self::MINIMUM_SEARCH_LENGTH, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForceCityEnabled()
+    {
+        return $this->scopeConfig->getValue(self::FORCE_SELECT_CITY, ScopeInterface::SCOPE_STORE);
     }
 }

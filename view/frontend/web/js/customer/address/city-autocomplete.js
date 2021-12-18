@@ -47,6 +47,14 @@ define([
                         $("input#zip").val(ui.item.postcode);
                     }
                 },
+                change: function (event, ui) {
+                    if(that.options.isForceCityEnabled){
+                        if (ui.item === null) {
+                            $(event.target).val('');
+                            $("input#zip").val('');
+                        }
+                    }
+                },           
                 minLength: that.options.minLength
             });
         }

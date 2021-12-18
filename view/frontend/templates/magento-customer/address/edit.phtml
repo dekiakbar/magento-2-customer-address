@@ -238,7 +238,8 @@ $viewModel = $block->getViewModel();
                 "enablePostcode": <?=
                     /* @noEscape */ $block->getConfig('customeraddress/general/enable_postcode') ? 'true' : 'false'
                 ?>,
-                "minLength": <?= /* @noEscape */ $block->getConfig('customeraddress/general/minimum_search_length') ?>
+                "minLength": <?= /* @noEscape */ $block->getConfig('customeraddress/general/minimum_search_length') ?>,
+                "isForceCityEnabled": <?= /* @noEscape */ $block->getConfig('customeraddress/general/force_select_city') ?>
             }
         }
 

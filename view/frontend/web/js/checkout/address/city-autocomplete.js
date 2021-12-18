@@ -16,6 +16,7 @@ define([
             var options = settings.options;
             var postcodeEnabled = window.checkoutConfig.customerAddress.postcodeEnabled;
             var minimunSearcLength = window.checkoutConfig.customerAddress.minimunSearcLength;
+            var isForceCityEnabled = window.checkoutConfig.customerAddress.isForceCityEnabled;
             var updateElementValueWithLabel = function (event, ui) {
                 event.preventDefault();
                 $(element).val(ui.item.label);
@@ -34,6 +35,14 @@ define([
                 },
                 open: function(event, ui) {
                     $('.ui-menu').width($(event.target).outerWidth());
+                },
+                change: function (event, ui) {
+                    if(isForceCityEnabled){
+                        if (ui.item === null) {
+                            $(element).val('').trigger('change');
+                            $("[name='shippingAddress.postcode'] input[name='postcode']").val('').trigger('change');
+                        }
+                    }
                 },
                 minLength: minimunSearcLength
             });
