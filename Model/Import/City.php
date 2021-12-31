@@ -1,98 +1,145 @@
 <?php
 namespace Deki\CustomerAddress\Model\Import;
 
-use Deki\CustomerAddress\Model\Import\Validator\RowValidatorInterface as ValidatorInterface;
+use Exception;
+use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\Json\Helper\Data as JsonHelper;
+use Magento\ImportExport\Helper\Data as ImportHelper;
+use Magento\ImportExport\Model\Import;
+use Magento\ImportExport\Model\Import\Entity\AbstractEntity;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingErrorAggregatorInterface;
+use Magento\ImportExport\Model\ResourceModel\Helper;
+use Magento\ImportExport\Model\ResourceModel\Import\Data;
 
-class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
+class City extends AbstractEntity
 {
-    const ID = 'city_id';
+    const ENTITY_CODE = 'deki_customeraddress';
+    const TABLE = 'deki_customeraddress_city';
+    const ENTITY_ID_COLUMN = 'city_id';
     const COUNTRY_ID = 'country_id';
     const REGION_ID = 'region_id';
     const NAME = 'name';
     const POSTCODE = 'postcode';
-    const UPDATED_AT = 'updated_at';
-    const CREATED_AT = 'created_at';
-    const TABLE_ENTITY= 'deki_customeraddress_city';
-    
-    /**
-     * Validation failure city template definitions
-     *
-     * @var array
-     */
-    protected $_messageTemplates = [
-        ValidatorInterface::ERROR_MESSAGE_IS_EMPTY => 'Message is empty',
-    ];
-
-    /**
-     *
-     * @var array
-     */
-    protected $_permanentAttributes = [self::ID];
     
     /**
      * If we should check column names
-     *
-     * @var bool
      */
     protected $needColumnCheck = true;
 
     /**
-     * Valid column names
-     *
-     * @array
-     */
-    protected $validColumnNames = [
-        self::ID,
-        self::COUNTRY_ID,
-        self::REGION_ID,
-        self::NAME,
-        self::POSTCODE,
-        self::UPDATED_AT,
-        self::CREATED_AT
-    ];
-
-    /**
      * Need to log in import history
-     *
-     * @var bool
      */
     protected $logInHistory = true;
 
     /**
-     * @var \Magento\Framework\DB\Adapter\AdapterInterface
+     * Permanent entity columns.
      */
-    protected $_connection;
+    protected $_permanentAttributes = [
+        self::ENTITY_ID_COLUMN
+    ];
 
     /**
-     * @var \Magento\Framework\App\ResourceConnection
+     * Valid column names
      */
-    protected $_resource;
+    protected $validColumnNames = [
+        self::ENTITY_ID_COLUMN,
+        self::COUNTRY_ID,
+        self::REGION_ID,
+        self::NAME,
+        self::POSTCODE
+    ];
 
     /**
-     * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+     * @var AdapterInterface
+     */
+    protected $connection;
+
+    /**
+     * @var ResourceConnection
+     */
+    private $resource;
+
+    /**
+     * Courses constructor.
+     *
+     * @param JsonHelper $jsonHelper
+     * @param ImportHelper $importExportData
+     * @param Data $importData
+     * @param ResourceConnection $resource
+     * @param Helper $resourceHelper
+     * @param ProcessingErrorAggregatorInterface $errorAggregator
      */
     public function __construct(
-        \Magento\Framework\Json\Helper\Data $jsonHelper,
-        \Magento\ImportExport\Helper\Data $importExportData,
-        \Magento\ImportExport\Model\ResourceModel\Import\Data $importData,
-        \Magento\Framework\App\ResourceConnection $resource,
-        \Magento\ImportExport\Model\ResourceModel\Helper $resourceHelper,
-        \Magento\Framework\Stdlib\StringUtils $string,
+        JsonHelper $jsonHelper,
+        ImportHelper $importExportData,
+        Data $importData,
+        ResourceConnection $resource,
+        Helper $resourceHelper,
         ProcessingErrorAggregatorInterface $errorAggregator
     ) {
         $this->jsonHelper = $jsonHelper;
         $this->_importExportData = $importExportData;
         $this->_resourceHelper = $resourceHelper;
         $this->_dataSourceModel = $importData;
-        $this->_resource = $resource;
-        $this->_connection = $resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
+        $this->resource = $resource;
+        $this->connection = $resource->getConnection(ResourceConnection::DEFAULT_CONNECTION);
         $this->errorAggregator = $errorAggregator;
+        $this->initMessageTemplates();
     }
 
-    public function getValidColumnNames()
+    /**
+     * Init Error Messages
+     */
+    private function initMessageTemplates()
     {
-        return $this->validColumnNames;
+        $this->addMessageTemplate(
+            'countryIdIsRequired',
+            __('Country Id cannot be empty.')
+        );
+        $this->addMessageTemplate(
+            'regionIdIsRequired',
+            __('Region Id cannot be empty.')
+        );
+        $this->addMessageTemplate(
+            'nameIsRequired',
+            __('The name cannot be empty.')
+        );
+    }
+
+    /**
+     * Row validation
+     *
+     * @param array $rowData
+     * @param int $rowNum
+     *
+     * @return bool
+     */
+    public function validateRow(array $rowData, $rowNum): bool
+    {
+        $countryId = $rowData[self::COUNTRY_ID] ?? '';
+        $regionId = $rowData[self::REGION_ID] ?? '';
+        $name = $rowData[self::NAME] ?? '';
+        
+        if (!$countryId) {
+            $this->addRowError('countryIdIsRequired', $rowNum);
+        }
+        
+        if (!$regionId) {
+            $this->addRowError('regionIdIsRequired', $rowNum);
+        }
+
+        if (!$name) {
+            $this->addRowError('nameIsRequired', $rowNum);
+        }
+
+        if (isset($this->_validatedRows[$rowNum])) {
+            return !$this->getErrorAggregator()->isRowInvalid($rowNum);
+        }
+
+        $this->_validatedRows[$rowNum] = true;
+
+        return !$this->getErrorAggregator()->isRowInvalid($rowNum);
     }
 
     /**
@@ -102,174 +149,179 @@ class City extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     public function getEntityTypeCode()
     {
-        return 'deki_customeraddress';
+        return self::ENTITY_CODE;
     }
 
     /**
-     * Row validation.
+     * Get available columns
      *
-     * @param array $rowData
-     * @param int $rowNum
+     * @return array
+     */
+    public function getValidColumnNames(): array
+    {
+        return $this->validColumnNames;
+    }
+
+    /**
+     * Import data
+     *
      * @return bool
-     */
-    public function validateRow(array $rowData, $rowNum)
-    {
-        if (isset($this->_validatedRows[$rowNum])) {
-            return !$this->getErrorAggregator()->isRowInvalid($rowNum);
-        }
-        $this->_validatedRows[$rowNum] = true;
-        return !$this->getErrorAggregator()->isRowInvalid($rowNum);
-    }
-
-    /**
-     * Create Advanced city data from raw data.
      *
-     * @throws \Exception
-     * @return bool Result of operation.
+     * @throws Exception
      */
-    protected function _importData()
+    protected function _importData(): bool
     {
-        $this->saveEntity();
+        switch ($this->getBehavior()) {
+            case Import::BEHAVIOR_DELETE:
+                $this->deleteEntity();
+                break;
+            case Import::BEHAVIOR_REPLACE:
+                $this->saveAndReplaceEntity();
+                break;
+            case Import::BEHAVIOR_APPEND:
+                $this->saveAndReplaceEntity();
+                break;
+        }
+
         return true;
     }
 
     /**
-     * Save city
+     * Delete entities
      *
-     * @return $this
+     * @return bool
      */
-    public function saveEntity()
+    private function deleteEntity(): bool
     {
-        $this->saveAndReplaceEntity();
-        return $this;
-    }
-
-    /**
-     * Save and replace data city
-     *
-     * @return $this
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
-    protected function saveAndReplaceEntity()
-    {
-        $behavior = $this->getBehavior();
-        $listTitle = [];
+        $rows = [];
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
-            $entityList = [];
             foreach ($bunch as $rowNum => $rowData) {
-                if (!$this->validateRow($rowData, $rowNum)) {
-                    $this->addRowError(ValidatorInterface::ERROR_TITLE_IS_EMPTY, $rowNum);
-                    continue;
+                $this->validateRow($rowData, $rowNum);
+
+                if (!$this->getErrorAggregator()->isRowInvalid($rowNum)) {
+                    $rowId = $rowData[self::ENTITY_ID_COLUMN];
+                    $rows[] = $rowId;
                 }
+
                 if ($this->getErrorAggregator()->hasToBeTerminated()) {
                     $this->getErrorAggregator()->addRowToSkip($rowNum);
+                }
+            }
+        }
+
+        if ($rows) {
+            return $this->deleteEntityFinish(array_unique($rows));
+        }
+
+        return false;
+    }
+
+    /**
+     * Save and replace entities
+     *
+     * @return void
+     */
+    private function saveAndReplaceEntity()
+    {
+        $behavior = $this->getBehavior();
+        $rows = [];
+        while ($bunch = $this->_dataSourceModel->getNextBunch()) {
+            $entityList = [];
+
+            foreach ($bunch as $rowNum => $row) {
+                if (!$this->validateRow($row, $rowNum)) {
                     continue;
                 }
-                $rowTtile= $rowData[self::ID];
-                $listTitle[] = $rowTtile;
-                $entityList[$rowTtile][] = [
-                    self::ID => $rowData[self::ID],
-                    self::COUNTRY_ID => $rowData[self::COUNTRY_ID],
-                    self::REGION_ID => $rowData[self::REGION_ID],
-                    self::NAME => $rowData[self::NAME],
-                    self::POSTCODE => $rowData[self::POSTCODE],
-                    self::UPDATED_AT => $rowData[self::UPDATED_AT],
-                    self::CREATED_AT => $rowData[self::CREATED_AT]
-                ];
-            }
-            
-            $rewCreated = [];
-            $rowUpdated = [];
-            $rewDeleted = [];
-            if (\Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE == $behavior) {
-                if ($listTitle) {
-                    if ($this->deleteEntityDb(array_unique($listTitle), self::TABLE_ENTITY)) {
-                        $this->saveEntityDb($entityList, self::TABLE_ENTITY);
-                        $rowUpdated = $entityList;
-                    }
+
+                if ($this->getErrorAggregator()->hasToBeTerminated()) {
+                    $this->getErrorAggregator()->addRowToSkip($rowNum);
+
+                    continue;
                 }
-            } elseif (\Magento\ImportExport\Model\Import::BEHAVIOR_APPEND == $behavior) {
-                $this->saveEntityDb($entityList, self::TABLE_ENTITY);
-                $rewCreated = $entityList;
-            } elseif (\Magento\ImportExport\Model\Import::BEHAVIOR_DELETE == $behavior) {
-                $this->deleteEntityDb(array_unique($listTitle), self::TABLE_ENTITY);
-                $rewDeleted = $listTitle;
+
+                $rowId = $row[self::ENTITY_ID_COLUMN];
+                $rows[] = $rowId;
+                $columnValues = [];
+
+                foreach ($this->getAvailableColumns() as $columnKey) {
+                    $columnValues[$columnKey] = $row[$columnKey];
+                }
+
+                $entityList[$rowId][] = $columnValues;
+                $this->countItemsCreated += (int) !isset($row[self::ENTITY_ID_COLUMN]);
+                $this->countItemsUpdated += (int) isset($row[self::ENTITY_ID_COLUMN]);
+            }
+
+            if (Import::BEHAVIOR_REPLACE === $behavior) {
+                if ($rows && $this->deleteEntityFinish(array_unique($rows))) {
+                    $this->saveEntityFinish($entityList);
+                }
+            } elseif (Import::BEHAVIOR_APPEND === $behavior) {
+                $this->saveEntityFinish($entityList);
             }
         }
-
-        $this->updateItemsCounterStats($rewCreated, $rowUpdated, $rewDeleted);
-        return $this;
     }
 
     /**
-     * Save city to customtable.
+     * Save entities
      *
      * @param array $entityData
-     * @param string $table
-     * @return $this
+     *
+     * @return bool
      */
-    protected function saveEntityDb(array $entityData, $table)
+    private function saveEntityFinish(array $entityData): bool
     {
         if ($entityData) {
-            $tableName = $this->_connection->getTableName($table);
-            $entityIn = [];
-            foreach ($entityData as $id => $entityRows) {
+            $tableName = $this->connection->getTableName(self::TABLE);
+            $rows = [];
+
+            foreach ($entityData as $entityRows) {
                 foreach ($entityRows as $row) {
-                    $entityIn[] = $row;
+                    $rows[] = $row;
                 }
             }
-            if ($entityIn) {
-                $this->_connection->insertOnDuplicate(
-                    $tableName,
-                    $entityIn,
-                    [
-                        self::ID,
-                        self::COUNTRY_ID,
-                        self::REGION_ID,
-                        self::NAME,
-                        self::POSTCODE,
-                        self::UPDATED_AT,
-                        self::CREATED_AT
-                    ]
+
+            if ($rows) {
+                $this->connection->insertOnDuplicate($tableName, $rows, $this->getAvailableColumns());
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * Delete entities
+     *
+     * @param array $entityIds
+     *
+     * @return bool
+     */
+    private function deleteEntityFinish(array $entityIds): bool
+    {
+        if ($entityIds) {
+            try {
+                $this->countItemsDeleted += $this->connection->delete(
+                    $this->connection->getTableName(self::TABLE),
+                    $this->connection->quoteInto(self::ENTITY_ID_COLUMN . ' IN (?)', $entityIds)
                 );
+
+                return true;
+            } catch (Exception $e) {
+                return false;
             }
         }
-        return $this;
+
+        return false;
     }
 
     /**
-     * Save city to customtable.
+     * Get available columns
      *
-     * @param array $entityData
-     * @param string $table
-     * @return $this
+     * @return array
      */
-    public function deleteEntityDb(array $listTitle, $table)
+    private function getAvailableColumns(): array
     {
-        if ($listTitle) {
-            $tableName = $this->_connection->getTableName($table);
-            $this->_connection->delete(
-                $tableName,
-                self::ID." IN (".implode(",", $listTitle).")"
-            );
-        }
-        return $this;
-    }
-
-    /**
-     * Update proceed items counter
-     *
-     * @param array $created
-     * @param array $updated
-     * @param array $deleted
-     * @return $this
-     */
-    protected function updateItemsCounterStats(array $created = [], array $updated = [], array $deleted = [])
-    {
-        $this->countItemsCreated = count($created);
-        $this->countItemsUpdated = count($updated);
-        $this->countItemsDeleted = count($deleted);
-        return $this;
+        return $this->validColumnNames;
     }
 }

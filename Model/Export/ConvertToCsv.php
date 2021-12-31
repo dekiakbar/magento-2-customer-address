@@ -75,14 +75,15 @@ class ConvertToCsv
         $this->filter->prepareComponent($component);
         $this->filter->applySelectionOnTargetProvider();
         $dataProvider = $component->getContext()->getDataProvider();
-
         $this->directory->create('export');
         $stream = $this->directory->openFile($file, 'w+');
         $stream->lock();
-
-        $headers = array_keys($this->cityResource->getConnection()->describeTable($this->cityResource->getMainTable()));
+        $headers = array_keys(
+            $this->removeUnnecessaryData(
+                $this->cityResource->getConnection()->describeTable($this->cityResource->getMainTable())
+            )
+        );
         $stream->writeCsv($headers);
-        
         $i = 1;
         $searchCriteria = $dataProvider->getSearchCriteria()
             ->setCurrentPage($i)
@@ -91,9 +92,7 @@ class ConvertToCsv
         while ($totalCount > 0) {
             $items = $dataProvider->getSearchResult()->getItems();
             foreach ($items as $item) {
-                $rowData = $item->getData();
-                unset($rowData['id_field_name']);
-                unset($rowData['orig_data']);
+                $rowData = $this->removeUnnecessaryData($item->getData());
                 $stream->writeCsv($rowData);
             }
             $searchCriteria->setCurrentPage(++$i);
@@ -107,5 +106,27 @@ class ConvertToCsv
             'value' => $file,
             'rm' => true  // can delete file after use
         ];
+    }
+
+    /**
+     * remove unnecessary array
+     *
+     * @param array $data
+     * @return array
+     * @throws LocalizedException
+     */
+    protected function removeUnnecessaryData(array $data)
+    {
+        if (!is_array($data)) {
+            throw new LocalizedException(__("wrong data type, expected type of array"));
+        }
+        unset($data['id_field_name']);
+        unset($data['orig_data']);
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        
+        return $data;
     }
 }

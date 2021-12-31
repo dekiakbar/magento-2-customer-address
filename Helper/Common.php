@@ -74,7 +74,7 @@ class Common extends AbstractHelper
     }
 
     /**
-     * build region code based country id and region name
+     * save new region
      *
      * @param string $countryId
      * @param string $regionCode
