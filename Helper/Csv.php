@@ -223,14 +223,19 @@ class Csv extends AbstractHelper
                 }
 
                 if ($regionSaveState === false) {
-                    $regionId = $this->saveRegion($csvData);
+                    $region = $this->isRegionExist(
+                        $csvData[self::COLUMN_INDEX_OF_REGION_CODE],
+                        $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID]
+                    );
+                    if ($region) {
+                        $regionId = $region->getId();
+                    } else {
+                        $regionId = $this->saveRegion($csvData);
+                    }
+                    
                     $regionSaveState = true;
                     $lastRegionCode = $csvData[self::COLUMN_INDEX_OF_REGION_CODE];
                 }
-                $regionId = $this->regionModel->loadByCode(
-                    $csvData[self::COLUMN_INDEX_OF_REGION_CODE],
-                    $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID]
-                )->getId();
 
                 $cities[] = [
                     $csvDatas[0][self::COLUMN_INDEX_OF_COUNTRY_ID] => $csvData[self::COLUMN_INDEX_OF_COUNTRY_ID],
@@ -279,5 +284,21 @@ class Csv extends AbstractHelper
         $cityObject->setName($csvData[self::COLUMN_INDEX_OF_CITY_NAME]);
         $cityObject->setPostcode($csvData[self::COLUMN_INDEX_OF_POST_CODE]);
         return $this->cityRepository->save($cityObject);
+    }
+
+    /**
+     * Check if region exist by country id and region code
+     * @param string $code
+     * @param string $countryId
+     * @return \Magento\Directory\Model\Region | false
+     */
+    public function isRegionExist($code, $countryId)
+    {
+        $region = $this->regionModel->loadByCode($code, $countryId);
+        if ($region->getId()) {
+            return $region;
+        }
+
+        return false;
     }
 }
