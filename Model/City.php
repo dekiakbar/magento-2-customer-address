@@ -26,7 +26,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
      */
     public function getCityId()
     {
-        return $this->_get(self::CITY_ID);
+        return $this->_getData(self::CITY_ID);
     }
 
     /**
@@ -45,7 +45,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
      */
     public function getRegionId()
     {
-        return $this->_get(self::REGION_ID);
+        return $this->_getData(self::REGION_ID);
     }
 
     /**
@@ -64,7 +64,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
      */
     public function getName()
     {
-        return $this->_get(self::NAME);
+        return $this->_getData(self::NAME);
     }
 
     /**
@@ -83,7 +83,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
      */
     public function getPostcode()
     {
-        return $this->_get(self::POSTCODE);
+        return $this->_getData(self::POSTCODE);
     }
 
     /**
@@ -102,7 +102,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
      */
     public function getUpdatedAt()
     {
-        return $this->_get(self::UPDATED_AT);
+        return $this->_getData(self::UPDATED_AT);
     }
 
     /**
@@ -121,7 +121,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
      */
     public function getCreatedAt()
     {
-        return $this->_get(self::CREATED_AT);
+        return $this->_getData(self::CREATED_AT);
     }
 
     /**
@@ -140,7 +140,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
      */
     public function getCountryId()
     {
-        return $this->_get(self::COUNTRY_ID);
+        return $this->_getData(self::COUNTRY_ID);
     }
 
     /**

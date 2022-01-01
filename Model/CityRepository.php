@@ -116,11 +116,6 @@ class CityRepository implements CityRepositoryInterface
     ) {
         $collection = $this->cityCollectionFactory->create();
         
-        $this->extensionAttributesJoinProcessor->process(
-            $collection,
-            \Deki\CustomerAddress\Api\Data\CityInterface::class
-        );
-        
         $this->collectionProcessor->process($criteria, $collection);
         
         $searchResults = $this->searchResultsFactory->create();
