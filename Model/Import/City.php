@@ -11,6 +11,8 @@ use Magento\ImportExport\Model\Import\Entity\AbstractEntity;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingErrorAggregatorInterface;
 use Magento\ImportExport\Model\ResourceModel\Helper;
 use Magento\ImportExport\Model\ResourceModel\Import\Data;
+use Deki\CustomerAddress\Helper\Common;
+use \Magento\Directory\Model\Region;
 
 class City extends AbstractEntity
 {
@@ -18,6 +20,7 @@ class City extends AbstractEntity
     const TABLE = 'deki_customeraddress_city';
     const ENTITY_ID_COLUMN = 'city_id';
     const COUNTRY_ID = 'country_id';
+    const REGION_CODE = 'region_code';
     const REGION_ID = 'region_id';
     const NAME = 'name';
     const POSTCODE = 'postcode';
@@ -45,6 +48,17 @@ class City extends AbstractEntity
     protected $validColumnNames = [
         self::ENTITY_ID_COLUMN,
         self::COUNTRY_ID,
+        self::REGION_CODE,
+        self::NAME,
+        self::POSTCODE
+    ];
+
+    /**
+     * Database Valid column names
+     */
+    protected $validDbColumnNames = [
+        self::ENTITY_ID_COLUMN,
+        self::COUNTRY_ID,
         self::REGION_ID,
         self::NAME,
         self::POSTCODE
@@ -56,9 +70,14 @@ class City extends AbstractEntity
     protected $connection;
 
     /**
-     * @var ResourceConnection
+     * @var Common
      */
-    private $resource;
+    private $commonHelper;
+
+    /**
+     * @var Region
+     */
+    protected $regionModel;
 
     /**
      * Courses constructor.
@@ -69,6 +88,7 @@ class City extends AbstractEntity
      * @param ResourceConnection $resource
      * @param Helper $resourceHelper
      * @param ProcessingErrorAggregatorInterface $errorAggregator
+     * @param Common $commonHelper
      */
     public function __construct(
         JsonHelper $jsonHelper,
@@ -76,7 +96,9 @@ class City extends AbstractEntity
         Data $importData,
         ResourceConnection $resource,
         Helper $resourceHelper,
-        ProcessingErrorAggregatorInterface $errorAggregator
+        ProcessingErrorAggregatorInterface $errorAggregator,
+        Common $commonHelper,
+        Region $regionModel
     ) {
         $this->jsonHelper = $jsonHelper;
         $this->_importExportData = $importExportData;
@@ -85,6 +107,8 @@ class City extends AbstractEntity
         $this->resource = $resource;
         $this->connection = $resource->getConnection(ResourceConnection::DEFAULT_CONNECTION);
         $this->errorAggregator = $errorAggregator;
+        $this->commonHelper = $commonHelper;
+        $this->regionModel = $regionModel;
         $this->initMessageTemplates();
     }
 
@@ -98,8 +122,12 @@ class City extends AbstractEntity
             __('Country Id cannot be empty.')
         );
         $this->addMessageTemplate(
-            'regionIdIsRequired',
-            __('Region Id cannot be empty.')
+            'regionCodeIsRequired',
+            __('Region Code cannot be empty.')
+        );
+        $this->addMessageTemplate(
+            'regionCodeNotFound',
+            __("Region Code doesn't exist.")
         );
         $this->addMessageTemplate(
             'nameIsRequired',
@@ -118,19 +146,23 @@ class City extends AbstractEntity
     public function validateRow(array $rowData, $rowNum): bool
     {
         $countryId = $rowData[self::COUNTRY_ID] ?? '';
-        $regionId = $rowData[self::REGION_ID] ?? '';
+        $regionCode = $rowData[self::REGION_CODE] ?? '';
         $name = $rowData[self::NAME] ?? '';
         
         if (!$countryId) {
             $this->addRowError('countryIdIsRequired', $rowNum);
         }
         
-        if (!$regionId) {
-            $this->addRowError('regionIdIsRequired', $rowNum);
+        if (!$regionCode) {
+            $this->addRowError('regionCodeIsRequired', $rowNum);
         }
 
         if (!$name) {
             $this->addRowError('nameIsRequired', $rowNum);
+        }
+
+        if (!$this->commonHelper->isRegionExistByCode($countryId, $regionCode)) {
+            $this->addRowError('regionCodeNotFound', $rowNum);
         }
 
         if (isset($this->_validatedRows[$rowNum])) {
@@ -247,7 +279,7 @@ class City extends AbstractEntity
                     $columnValues[$columnKey] = $row[$columnKey];
                 }
 
-                $entityList[$rowId][] = $columnValues;
+                $entityList[$rowId][] = $this->transformRegionCodeToRegionId($columnValues);
                 $this->countItemsCreated += (int) !isset($row[self::ENTITY_ID_COLUMN]);
                 $this->countItemsUpdated += (int) isset($row[self::ENTITY_ID_COLUMN]);
             }
@@ -282,7 +314,7 @@ class City extends AbstractEntity
             }
 
             if ($rows) {
-                $this->connection->insertOnDuplicate($tableName, $rows, $this->getAvailableColumns());
+                $this->connection->insertOnDuplicate($tableName, $rows, $this->getAvailableDbColumns());
                 return true;
             }
 
@@ -316,12 +348,38 @@ class City extends AbstractEntity
     }
 
     /**
-     * Get available columns
+     * Get available csv columns
      *
      * @return array
      */
     private function getAvailableColumns(): array
     {
         return $this->validColumnNames;
+    }
+
+    /**
+     * Get available database columns
+     *
+     * @return array
+     */
+    private function getAvailableDbColumns(): array
+    {
+        return $this->validDbColumnNames;
+    }
+
+    /**
+     * Replcae region_code with region_id
+     *
+     * @param array $columnValues
+     * @return array
+     */
+    private function transformRegionCodeToRegionId(array $columnValues) : array
+    {
+        $countryId = $columnValues['country_id'];
+        $regionCode = $columnValues['region_code'];
+        unset($columnValues['region_code']);
+        $columnValues['region_id'] = $this->regionModel->loadByCode($regionCode, $countryId)->getId();
+
+        return $columnValues;
     }
 }

@@ -1,21 +1,21 @@
-city_id,country_id,region_id,name,postcode
-31175,ID,1112,"Sudajaya Hilir, Baros, Kota Sukabumi",43167
-31176,ID,1112,"Jayamekar, Baros, Kota Sukabumi",43166
-31177,ID,1112,"Jayaraksa, Baros, Kota Sukabumi",43166
-31178,ID,1112,"Baros, Baros, Kota Sukabumi",43167
-31179,ID,1112,"Lembursitu, Lembursitu, Kota Sukabumi",43168
-31180,ID,1112,"Situmekar, Lembursitu, Kota Sukabumi",43168
-31181,ID,1112,"Cipanengah, Lembursitu, Kota Sukabumi",43168
-31182,ID,1112,"Cikundul, Lembursitu, Kota Sukabumi",43168
-31183,ID,1112,"Sindangsari, Lembursitu, Kota Sukabumi",43168
-31184,ID,1112,"Sindangpalay, Cibeureum, Kota Sukabumi",43162
-31185,ID,1112,"Limusnunggal, Cibeureum, Kota Sukabumi",43165
-31186,ID,1112,"Babakan, Cibeureum, Kota Sukabumi",43163
-31187,ID,1112,"Cibeureum Hilir, Cibeureum, Kota Sukabumi",43164
-31188,ID,1112,"Cikondang, Citamiang, Kota Sukabumi",43142
-31189,ID,1112,"Gedong Panjang, Citamiang, Kota Sukabumi",43144
-31190,ID,1112,"Citamiang, Citamiang, Kota Sukabumi",43143
-31191,ID,1112,"Nanggeleng, Citamiang, Kota Sukabumi",43145
-31192,ID,1112,"Tipar, Citamiang, Kota Sukabumi",43141
-31193,ID,1112,"Dayeuhluhur, Warudoyong, Kota Sukabumi",43134
-31194,ID,1112,"Warudoyong, Warudoyong, Kota Sukabumi",43133
+city_id,country_id,name,postcode,region_code
+107767,ID,"Bintaro, Pesanggrahan, Kota Adm. Jakarta Selatan",12330,ID-JK
+107788,ID,"Bangka, Mampang Prapatan, Kota Adm. Jakarta Selatan",12730,ID-JK
+107803,ID,"Bukit Duri, Tebet, Kota Adm. Jakarta Selatan",12840,ID-JK
+107816,ID,"Baru, Pasar Rebo, Kota Adm. Jakarta Timur",13780,ID-JK
+107829,ID,"Bambu Apus, Cipayung, Kota Adm. Jakarta Timur",13890,ID-JK
+107830,ID,"Ceger, Cipayung, Kota Adm. Jakarta Timur",13820,ID-JK
+107837,ID,"Bale Kambang, Kramat Jati, Kota Adm. Jakarta Timur",13530,ID-JK
+107838,ID,"Batu Ampar, Kramat Jati, Kota Adm. Jakarta Timur",13520,ID-JK
+107843,ID,"Cawang, Kramat Jati, Kota Adm. Jakarta Timur",13630,ID-JK
+107844,ID,"Bidara Cina, Jatinegara, Kota Adm. Jakarta Timur",13330,ID-JK
+107850,ID,"Bali Mester, Jatinegara, Kota Adm. Jakarta Timur",13310,ID-JK
+107863,ID,"Cakung Timur, Cakung, Kota Adm. Jakarta Timur",13910,ID-JK
+107864,ID,"Cakung Barat, Cakung, Kota Adm. Jakarta Timur",13910,ID-JK
+107880,ID,"Bendungan Hilir, Tanah Abang, Kota Adm. Jakarta Pusat",10210,ID-JK
+107896,ID,"Bungur, Senen, Kota Adm. Jakarta Pusat",10460,ID-JK
+107902,ID,"Cempaka Putih Timur, Cempaka Putih, Kota Adm. Jakarta Pusat",10510,ID-JK
+107903,ID,"Cempaka Putih Barat, Cempaka Putih, Kota Adm. Jakarta Pusat",10520,ID-JK
+107905,ID,"Cempaka Baru, Kemayoran, Kota Adm. Jakarta Pusat",10640,ID-JK
+107955,ID,"Angke, Tambora, Kota Adm. Jakarta Barat",11330,ID-JK
+107986,ID,"Ancol, Pademangan, Kota Adm. Jakarta Utara",14430,ID-JK

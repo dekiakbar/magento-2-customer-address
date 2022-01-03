@@ -11,6 +11,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
 use Magento\Ui\Component\MassAction\Filter;
 use Deki\CustomerAddress\Model\ResourceModel\City;
+use \Magento\Directory\Model\RegionFactory;
 
 /**
  * Class ConvertToCsv
@@ -39,22 +40,30 @@ class ConvertToCsv
     protected $cityResource;
 
     /**
+     * @var Region
+     */
+    protected $regionFactory;
+
+    /**
      * @param Filesystem $filesystem
      * @param Filter $filter
      * @param MetadataProvider $metadataProvider
      * @param int $pageSize
+     * @param RegionFactory $regionFactory
      * @throws FileSystemException
      */
     public function __construct(
         Filesystem $filesystem,
         Filter $filter,
         City $cityResource,
+        RegionFactory $regionFactory,
         $pageSize = 200
     ) {
         $this->filter = $filter;
         $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->pageSize = $pageSize;
         $this->cityResource = $cityResource;
+        $this->regionFactory = $regionFactory;
     }
 
     /**
@@ -92,7 +101,7 @@ class ConvertToCsv
         while ($totalCount > 0) {
             $items = $dataProvider->getSearchResult()->getItems();
             foreach ($items as $item) {
-                $rowData = $this->removeUnnecessaryData($item->getData());
+                $rowData = $this->processRegion($item);
                 $stream->writeCsv($rowData);
             }
             $searchCriteria->setCurrentPage(++$i);
@@ -126,7 +135,25 @@ class ConvertToCsv
         unset($data['updated_at']);
         unset($data['created_at']);
         unset($data['updated_at']);
+        unset($data['region_id']);
+        $data["region_code"] = null;
         
         return $data;
+    }
+
+    /**
+     * remove unnecessary array and add region code
+     *
+     * @param \Magento\Framework\Api\Search\DocumentInterface $item
+     * @return array
+     * @throws LocalizedException
+     */
+    public function processRegion(\Magento\Framework\Api\Search\DocumentInterface $item)
+    {
+        $item = $item->getData();
+        $region = $this->regionFactory->create()->load($item['region_id']);
+        $item = $this->removeUnnecessaryData($item);
+        $item['region_code'] = $region->getCode();
+        return $item;
     }
 }

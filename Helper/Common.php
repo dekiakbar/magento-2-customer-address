@@ -116,7 +116,7 @@ class Common extends AbstractHelper
      */
     public function isRegionExistByCode($countryId, $regionCode)
     {
-        $region = $this->regionModel->loadByCode($regionCode, $countryId);
+        $region = $this->regionFactory->create()->loadByCode($regionCode, $countryId);
         if ($region->getId()) {
             return true;
         }
