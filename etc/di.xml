@@ -20,7 +20,7 @@
 		<arguments>
 			<argument name="commands" xsi:type="array">
 				<item name="region_list" xsi:type="object">Deki\CustomerAddress\Console\Command\RegionList</item>
-				<item name="import_region" xsi:type="object">Deki\CustomerAddress\Console\Command\ImportRegion</item>
+				<item name="import_region" xsi:type="object">Deki\CustomerAddress\Console\Command\RegionImport</item>
 			</argument>
 		</arguments>
 	</type>

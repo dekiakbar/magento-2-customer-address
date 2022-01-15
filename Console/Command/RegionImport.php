@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Magento\Framework\Console\Cli;
 
-class ImportRegion extends Command
+class RegionImport extends Command
 {
     const INPUT_REGION_KEY = 'region';
     protected $csvHelper;

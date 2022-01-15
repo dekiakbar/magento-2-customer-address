@@ -19,4 +19,20 @@ class City extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     {
         $this->_init('deki_customeraddress_city', 'city_id');
     }
+
+    /**
+     * Truncate City table
+     *
+     * @return $this
+     */
+    public function truncateTable()
+    {
+        if ($this->getConnection()->getTransactionLevel() > 0) {
+            $this->getConnection()->delete($this->getMainTable());
+        } else {
+            $this->getConnection()->truncateTable($this->getMainTable());
+        }
+
+        return $this;
+    }
 }
