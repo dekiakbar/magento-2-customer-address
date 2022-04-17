@@ -2,10 +2,6 @@
  * Copyright © Deki. All rights reserved.
  * See COPYING.txt for license details.
  */
-
-/**
- * @api
- */
  define([
   'jquery',
   'underscore',
