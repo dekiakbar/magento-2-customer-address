@@ -8,7 +8,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
-		<plugin name="Deki_CustomerAddress_Plugin_Frontend_Magento_Checkout_Block_Checkout_LayoutProcessor" type="Deki\CustomerAddress\Plugin\Frontend\Magento\Checkout\Block\Checkout\LayoutProcessor" sortOrder="10" disabled="false"/>
-    </type>
 </config>

@@ -1,81 +1,83 @@
 
-define([
+/**
+ * Copyright © Deki. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+ define([
     'Magento_Ui/js/form/element/abstract',
+    'uiRegistry',
     'mage/url',
-    'ko',
-    'Magento_Checkout/js/model/quote',
-    'Magento_Checkout/js/checkout-data',
     'jquery',
     'jquery/ui'
-], function (Abstract, urlbuild, ko, quote, checkoutData, $) {
+], function (Abstract, uiRegistry, urlbuild, $) {
     'use strict';
-    ko.bindingHandlers.cityAutoComplete = {
-        init: function (element, valueAccessor) {
-            var settings = valueAccessor();
-            var selectedOption = settings.selected;
-            var options = settings.options;
+
+    return Abstract.extend({
+        defaults: {
+            skipValidation: false,
+            imports: {
+                regionInput: '${ $.parentName }.region_id_input:value',
+                regionId: '${ $.parentName }.region_id:value',
+            },
+            postCodeIndex: 'postcode',
+            valueUpdate: 'keypress'
+        },
+
+        /**
+         * Callback that fires when 'value' property is updated.
+         */
+        onUpdate: function () {
+            var regionId = this.regionId;
+            var keyword = this.value;
             var postcodeEnabled = window.checkoutConfig.customerAddress.postcodeEnabled;
             var minimunSearcLength = window.checkoutConfig.customerAddress.minimunSearcLength;
             var isForceCityEnabled = window.checkoutConfig.customerAddress.isForceCityEnabled;
-            var updateElementValueWithLabel = function (event, ui) {
-                event.preventDefault();
-                $(element).val(ui.item.label);
-                if(typeof ui.item !== "undefined") {
-                    selectedOption(ui.item);
-                }
-            };
+            var postCode = uiRegistry.get(this.parentName)
+                .getChild(this.postCodeIndex);
+            var city = this;
 
-            $(element).autocomplete({
-                source: options,
-                select: function (event, ui) {
-                    updateElementValueWithLabel(event, ui);
-                    if(postcodeEnabled){
-                        $("[name='shippingAddress.postcode'] input[name='postcode']").val(ui.item.postcode).trigger('change');
+            $("#"+this.uid).autocomplete({
+                source: function( request, response ) {
+                    if(isNaN(regionId) === false){
+                        $.ajax( {
+                            url: urlbuild.build('customeraddress/city/search'),
+                            dataType: "json",
+                            method: "GET",
+                            data: {
+                                query: keyword,
+                                region_id: regionId
+                            },
+                            success: function( data ) {
+                                response($.map( data, function( item ) {
+                                    return {
+                                        label: item.name,
+                                        value: item.name,
+                                        postcode: item.postcode
+                                    }
+                                }));
+                            }
+                        });
                     }
                 },
                 open: function(event, ui) {
-                    $('.ui-menu').width($(event.target).outerWidth());
+                    $('.ui-front.ui-menu').width($(event.target).outerWidth());
+                },
+                select: function (event, ui) {
+                    if(postcodeEnabled){
+                        postCode.value(ui.item.postcode);
+                    }
                 },
                 change: function (event, ui) {
                     if(isForceCityEnabled){
                         if (ui.item === null) {
-                            $(element).val('').trigger('change');
-                            $("[name='shippingAddress.postcode'] input[name='postcode']").val('').trigger('change');
+                            city.value('');
+                            postCode.value('');
                         }
                     }
                 },
                 minLength: minimunSearcLength
             });
-        }
-    };
-
-    return Abstract.extend({
-        selectedCity: ko.observable(''),
-        getCities: function( request, response ) {
-            if(checkoutData.getShippingAddressFromData()){
-                var regionId = checkoutData.getShippingAddressFromData().region_id;
-            }else{
-                var regionId = quote.shippingAddress().regionId;
-            }
-            if(isNaN(regionId) === false){
-                $.ajax( {
-                    url: urlbuild.build('customeraddress/city/search'),
-                    dataType: "json",
-                    data: {
-                        query: request.term,
-                        region_id: regionId
-                    },
-                    success: function( data ) {
-                        response($.map( data, function( item ) {
-                            return {
-                                label: item.name,
-                                value: item.name,
-                                postcode: item.postcode
-                            }
-                        }));
-                    }
-                });
-            }
-        }
+        },
     });
 });
