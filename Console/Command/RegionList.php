@@ -37,7 +37,7 @@ class RegionList extends Command
                     $output->writeln("- ".$file);
                 }
                 $output->writeln("use available region list for import, example :");
-                $output->writeln("<info>php bin/magento customer-address:import-region ID</info>");
+                $output->writeln("<info>php bin/magento customer-address:region-import ID</info>");
             } else {
                 $output->writeln("<error>No CSV file found in : ".$this->csvHelper->getFilesDirectory()."</error>");
             }
