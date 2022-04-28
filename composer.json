@@ -3,7 +3,7 @@
     "description": "customer city and postcode autocomplete ",
     "type": "magento2-module",
     "license": "GPL-3.0",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "authors": [
         {
             "name": "Deki Akbar",

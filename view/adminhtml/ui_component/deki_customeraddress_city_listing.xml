@@ -41,24 +41,22 @@
 		<columnsControls name="columns_controls"/>
 		<filters name="listing_filters"/>
 		<paging name="listing_paging"/>
-		<exportButton class="Magento\Ui\Component\ExportButton" component="Magento_Ui/js/grid/export" displayArea="dataGridActions">
-			<argument name="data" xsi:type="array">
-					<item name="config" xsi:type="array">
-							<item name="component" xsi:type="string">Deki_CustomerAddress/js/grid/export</item>
-							<item name="options" xsi:type="array">
-									<item name="csv" xsi:type="array">
-										<item name="visibility" xsi:type="boolean">true</item>
-										<item name="value" xsi:type="string">csv</item>
-										<item name="label" xsi:type="string" translate="true">CSV</item>
-										<item name="url" xsi:type="string">deki_customeraddress/export/gridtocsv</item>
-									</item>
-									<item name="xml" xsi:type="array">
-										<item name="visibility" xsi:type="boolean">false</item>
-									</item>
-							</item>
-					</item>
-			</argument>
-		</exportButton>
+		<exportButton name="export_button">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">deki_customeraddress_city_listing.deki_customeraddress_city_listing.deki_customeraddress_city_columns.ids</item>
+                </item>
+            </argument>
+        </exportButton>
+		<massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
+			<action name="export">
+				<settings>
+					<url path="deki_customeraddress/export/gridtocsv"/>
+					<type>export</type>
+					<label translate="true">Export as CSV</label>
+				</settings>
+			</action>
+		</massaction>
 	</listingToolbar>
 	<columns name="deki_customeraddress_city_columns">
 		<settings>
