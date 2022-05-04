@@ -294,7 +294,7 @@ class Csv extends AbstractHelper
      */
     public function isRegionExist($code, $countryId)
     {
-        $region = $this->regionModel->loadByCode($code, $countryId);
+        $region = $this->regionFactory->create()->loadByCode($code, $countryId);
         if ($region->getId()) {
             return $region;
         }

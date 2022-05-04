@@ -1,6 +1,8 @@
 var config = {
-    paths: {
-        'city-autocomplete': 'Deki_CustomerAddress/js/customer/address/city-autocomplete'
+    map: {
+        '*': {
+            'city-autocomplete': 'Deki_CustomerAddress/js/customer/address/city-autocomplete'
+        }
     },
     config: {
         mixins: {

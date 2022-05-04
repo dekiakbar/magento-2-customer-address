@@ -56,6 +56,13 @@
 					<label translate="true">Export as CSV</label>
 				</settings>
 			</action>
+			<action name="delete">
+				<settings>
+					<url path="deki_customeraddress/city/massdelete"/>
+					<type>delete</type>
+					<label translate="true">Delete</label>
+				</settings>
+			</action>
 		</massaction>
 	</listingToolbar>
 	<columns name="deki_customeraddress_city_columns">

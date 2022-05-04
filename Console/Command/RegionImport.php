@@ -91,13 +91,13 @@ class RegionImport extends Command
             $requestedRegions = $input->getArgument(self::INPUT_REGION_KEY);
             $requestedRegions = array_filter(array_map('trim', $requestedRegions), 'strlen');
         }
-
+        
         if (empty($requestedRegions)) {
             $regions = $this->csvHelper->getRegionList();
         } else {
             $availableRegions = $this->csvHelper->getRegionList();
             $this->csvHelper->validateRequestedRegions($requestedRegions, $availableRegions);
-            $regions = array_intersect_key($availableRegions, $requestedRegions);
+            $regions = $requestedRegions;
         }
 
         return $regions;
