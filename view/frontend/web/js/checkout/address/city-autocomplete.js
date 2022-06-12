@@ -61,7 +61,7 @@
                     }
                 },
                 open: function(event, ui) {
-                    $('.ui-front.ui-menu').width($(event.target).outerWidth());
+                    $('.customer-address-autocomplete.ui-front.ui-menu').width($(event.target).outerWidth());
                 },
                 select: function (event, ui) {
                     if(postcodeEnabled){
@@ -76,6 +76,9 @@
                         }
                     }
                 },
+                classes: {
+                    "ui-autocomplete": "customer-address-autocomplete",
+                }, 
                 minLength: minimunSearcLength
             });
         },

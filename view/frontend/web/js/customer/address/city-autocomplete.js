@@ -40,7 +40,7 @@ define([
                     }
                 },
                 open: function(event, ui) {
-                    $('.ui-front.ui-menu').width($(event.target).outerWidth());
+                    $('.customer-address-autocomplete.ui-front.ui-menu').width($(event.target).outerWidth());
                 },
                 select: function (event, ui) {
                     if(that.options.enablePostcode){
@@ -54,7 +54,10 @@ define([
                             $("input#zip").val('');
                         }
                     }
-                },           
+                },
+                classes: {
+                    "ui-autocomplete": "customer-address-autocomplete",
+                },      
                 minLength: that.options.minLength
             });
         }
