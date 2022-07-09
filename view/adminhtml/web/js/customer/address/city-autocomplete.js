@@ -7,9 +7,10 @@
 define([
     'Magento_Ui/js/form/element/abstract',
     'uiRegistry',
+    'Deki_CustomerAddress/js/customer/address/fix-jquery-menu',
     'jquery',
     'jquery/ui'
-], function (Abstract, uiRegistry, $) {
+], function (Abstract, uiRegistry, menuPatch ,$) {
     'use strict';
 
     return Abstract.extend({
@@ -61,6 +62,8 @@ define([
                     $('.ui-front.ui-menu').width($(event.target).outerWidth());
                 },
                 select: function (event, ui) {
+                    event.preventDefault();
+                    city.value(ui.item.value);
                     if(config.enablePostcode){
                         postCode.value(ui.item.postcode);
                     }
@@ -75,6 +78,6 @@ define([
                 },
                 minLength: config.minSearchLength
             });
-        },
+        }
     });
 });
