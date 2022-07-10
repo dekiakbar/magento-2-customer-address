@@ -78,7 +78,7 @@
                 },
                 classes: {
                     "ui-autocomplete": "customer-address-autocomplete",
-                }, 
+                },
                 minLength: minimunSearcLength
             });
         },

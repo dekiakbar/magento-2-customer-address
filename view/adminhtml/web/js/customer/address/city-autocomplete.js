@@ -76,6 +76,9 @@ define([
                         }
                     }
                 },
+                classes: {
+                    "ui-autocomplete": "customer-address-autocomplete",
+                }, 
                 minLength: config.minSearchLength
             });
         }
