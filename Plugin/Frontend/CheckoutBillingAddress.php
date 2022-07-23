@@ -27,14 +27,13 @@ class CheckoutBillingAddress
     }
 
     /**
-     * Added autocomplete to city field in
-     * billing address form
-     * 
+     * Added autocomplete to city field in billing address form
+     *
      * @param LayoutProcessor $layoutProcessor
      * @param array           $jsLayout
-     * 
+     *
      * @return array
-     * 
+     *
      * @throws InputException
      */
     public function afterProcess(
@@ -67,9 +66,9 @@ class CheckoutBillingAddress
 
     /**
      * Add autocomplete if billing in payment method
-     * 
+     *
      * @param array $paymentMethodLayouts
-     * 
+     *
      * @return array
      */
     public function addAutocompletePaymentMethod($paymentMethodLayouts)
@@ -86,16 +85,16 @@ class CheckoutBillingAddress
 
     /**
      * Add autocomplete if billing in payment page
-     * 
+     *
      * @param array $afterMethodsLayout
-     * 
+     *
      * @return array
      */
     public function addAutocompletePaymentPage($afterMethodsLayout)
     {
         if (array_key_exists('billing-address-form', $afterMethodsLayout)) {
             $afterMethodsLayout['billing-address-form']['children']['form-fields']
-                ['children']['city']['component'] = self::CITY_COMPONENT; 
+                ['children']['city']['component'] = self::CITY_COMPONENT;
         }
 
         return $afterMethodsLayout;

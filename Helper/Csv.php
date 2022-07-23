@@ -13,14 +13,22 @@ use Magento\Framework\Exception\FileSystemException;
 
 class Csv extends AbstractHelper
 {
-    const CSV_FOLDER = "Files";
-    const ALLOWED_FILE_EXTENSION = ".csv";
-    const COLUMN_INDEX_OF_COUNTRY_ID = 0;
-    const COLUMN_INDEX_OF_REGION_CODE = 1;
-    const COLUMN_INDEX_OF_REGION_NAME = 2;
-    const COLUMN_INDEX_OF_CITY_NAME = 3;
-    const COLUMN_INDEX_OF_POST_CODE = 4;
-    const REGION_ID_COLUMN_NAME = 'region_id';
+    /** @var string */
+    public const CSV_FOLDER = "Files";
+    /** @var string */
+    public const ALLOWED_FILE_EXTENSION = ".csv";
+    /** @var string */
+    public const COLUMN_INDEX_OF_COUNTRY_ID = 0;
+    /** @var string */
+    public const COLUMN_INDEX_OF_REGION_CODE = 1;
+    /** @var string */
+    public const COLUMN_INDEX_OF_REGION_NAME = 2;
+    /** @var string */
+    public const COLUMN_INDEX_OF_CITY_NAME = 3;
+    /** @var string */
+    public const COLUMN_INDEX_OF_POST_CODE = 4;
+    /** @var string */
+    public const REGION_ID_COLUMN_NAME = 'region_id';
 
     /**
      * @var \Magento\Framework\File\Csv
@@ -67,19 +75,25 @@ class Csv extends AbstractHelper
      */
     protected $fileSystemIo;
 
+    /**
+     * @var \Deki\CustomerAddress\Model\ResourceModel\City\Collection
+     */
     protected $cityCollection;
 
     /**
+     * Contructor
+     *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\File\Csv $csv
      * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      * @param \Magento\Framework\Filesystem\Driver\File $driverFile
      * @param \Magento\Directory\Model\Region $regionModel
-     * @param \Magento\Directory\Model\ResourceModel\Region $resourceRegion,
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory,
+     * @param \Magento\Directory\Model\ResourceModel\Region $resourceRegion
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Deki\CustomerAddress\Api\Data\CityInterfaceFactory $cityInterfaceFactory
      * @param \Deki\CustomerAddress\Model\CityRepository $cityRepository
      * @param \Magento\Framework\Filesystem\Io\File $fileSystemIo
+     * @param \Deki\CustomerAddress\Model\ResourceModel\City\Collection $cityCollection
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -288,6 +302,7 @@ class Csv extends AbstractHelper
 
     /**
      * Check if region exist by country id and region code
+     *
      * @param string $code
      * @param string $countryId
      * @return \Magento\Directory\Model\Region | false

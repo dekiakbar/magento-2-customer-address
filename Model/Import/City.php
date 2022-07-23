@@ -16,34 +16,50 @@ use \Magento\Directory\Model\Region;
 
 class City extends AbstractEntity
 {
-    const ENTITY_CODE = 'deki_customeraddress';
-    const TABLE = 'deki_customeraddress_city';
-    const ENTITY_ID_COLUMN = 'city_id';
-    const COUNTRY_ID = 'country_id';
-    const REGION_CODE = 'region_code';
-    const REGION_ID = 'region_id';
-    const NAME = 'name';
-    const POSTCODE = 'postcode';
+    /** @var string */
+    public const ENTITY_CODE = 'deki_customeraddress';
+    /** @var string */
+    public const TABLE = 'deki_customeraddress_city';
+    /** @var string */
+    public const ENTITY_ID_COLUMN = 'city_id';
+    /** @var string */
+    public const COUNTRY_ID = 'country_id';
+    /** @var string */
+    public const REGION_CODE = 'region_code';
+    /** @var string */
+    public const REGION_ID = 'region_id';
+    /** @var string */
+    public const NAME = 'name';
+    /** @var string */
+    public const POSTCODE = 'postcode';
     
     /**
      * If we should check column names
+     *
+     * @var bool
      */
     protected $needColumnCheck = true;
 
     /**
      * Need to log in import history
+     *
+     * @var bool
      */
     protected $logInHistory = true;
 
     /**
      * Permanent entity columns.
+     *
+     * @var array
      */
     protected $_permanentAttributes = [
         self::ENTITY_ID_COLUMN
     ];
 
     /**
-     * Valid column names
+     * Valid column names can be accepted
+     *
+     * @var array
      */
     protected $validColumnNames = [
         self::ENTITY_ID_COLUMN,
@@ -55,6 +71,8 @@ class City extends AbstractEntity
 
     /**
      * Database Valid column names
+     *
+     * @var array
      */
     protected $validDbColumnNames = [
         self::ENTITY_ID_COLUMN,
@@ -89,6 +107,7 @@ class City extends AbstractEntity
      * @param Helper $resourceHelper
      * @param ProcessingErrorAggregatorInterface $errorAggregator
      * @param Common $commonHelper
+     * @param Region $regionModel
      */
     public function __construct(
         JsonHelper $jsonHelper,

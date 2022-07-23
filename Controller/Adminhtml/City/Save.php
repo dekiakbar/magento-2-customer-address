@@ -8,29 +8,37 @@ declare(strict_types=1);
 namespace Deki\CustomerAddress\Controller\Adminhtml\City;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Request\DataPersistorInterface;
+use Deki\CustomerAddress\Helper\Common;
+use Magento\Directory\Model\Region;
+use \Magento\Framework\Controller\ResultInterface;
 
 class Save extends \Magento\Backend\App\Action
 {
-
+    /** @var DataPersistorInterface */
     protected $dataPersistor;
+    /** @var Common */
     protected $commonHelper;
-    protected $csv;
+    /** @var Region */
     protected $regionModel;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
+     * Constructor
+     *
+     * @param Context $context
+     * @param DataPersistorInterface $dataPersistor
+     * @param Common $commonHelper
+     * @param Region $regionModel
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor,
-        \Deki\CustomerAddress\Helper\Common $commonHelper,
-        \Deki\CustomerAddress\Helper\Csv $csv,
-        \Magento\Directory\Model\Region $regionModel
+        Context $context,
+        DataPersistorInterface $dataPersistor,
+        Common $commonHelper,
+        Region $regionModel
     ) {
         $this->dataPersistor = $dataPersistor;
         $this->commonHelper = $commonHelper;
-        $this->csv = $csv;
         $this->regionModel = $regionModel;
         parent::__construct($context);
     }
@@ -38,7 +46,7 @@ class Save extends \Magento\Backend\App\Action
     /**
      * Save action
      *
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return ResultInterface
      */
     public function execute()
     {

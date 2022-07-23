@@ -23,15 +23,25 @@ use Magento\Framework\Reflection\DataObjectProcessor;
 
 class CityRepository implements CityRepositoryInterface
 {
+    /** @var DataObjectHelper */
     protected $dataObjectHelper;
+    /** @var CityFactory */
     protected $cityFactory;
+    /** @var JoinProcessorInterface */
     protected $extensionAttributesJoinProcessor;
+    /** @var dataCityFactory */
     protected $dataCityFactory;
+    /** @var extensibleDataObjectConverter */
     protected $extensibleDataObjectConverter;
+    /** @var ResourceCity */
     protected $resource;
+    /** @var CityCollectionFactory */
     protected $cityCollectionFactory;
+    /** @var DataObjectProcessor */
     protected $dataObjectProcessor;
+    /** @var CollectionProcessorInterface */
     private $collectionProcessor;
+    /** @var searchResultsFactory */
     protected $searchResultsFactory;
 
     /**
@@ -71,7 +81,7 @@ class CityRepository implements CityRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(
         \Deki\CustomerAddress\Api\Data\CityInterface $city
@@ -96,7 +106,7 @@ class CityRepository implements CityRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($cityId)
     {
@@ -109,7 +119,7 @@ class CityRepository implements CityRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getList(
         \Magento\Framework\Api\SearchCriteriaInterface $criteria
@@ -132,7 +142,7 @@ class CityRepository implements CityRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(
         \Deki\CustomerAddress\Api\Data\CityInterface $city
@@ -151,7 +161,7 @@ class CityRepository implements CityRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deleteById($cityId)
     {

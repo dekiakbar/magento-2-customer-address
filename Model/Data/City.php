@@ -14,6 +14,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Get city_id
+     *
      * @return string|null
      */
     public function getCityId()
@@ -23,6 +24,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Set city_id
+     *
      * @param string $cityId
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
@@ -33,6 +35,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Get region_id
+     *
      * @return string|null
      */
     public function getRegionId()
@@ -42,6 +45,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Set region_id
+     *
      * @param string $regionId
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
@@ -52,6 +56,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Retrieve existing extension attributes object or create a new one.
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityExtensionInterface|null
      */
     public function getExtensionAttributes()
@@ -61,6 +66,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
     
     /**
      * Get name
+     *
      * @return string|null
      */
     public function getName()
@@ -70,6 +76,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Set name
+     *
      * @param string $name
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
@@ -80,6 +87,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Get postcode
+     *
      * @return string|null
      */
     public function getPostcode()
@@ -89,6 +97,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Set postcode
+     *
      * @param string $postcode
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
@@ -99,6 +108,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Get updated_at
+     *
      * @return string|null
      */
     public function getUpdatedAt()
@@ -108,6 +118,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Set updated_at
+     *
      * @param string $updatedAt
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
@@ -118,6 +129,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Get created_at
+     *
      * @return string|null
      */
     public function getCreatedAt()
@@ -127,6 +139,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Set created_at
+     *
      * @param string $createdAt
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
@@ -137,6 +150,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Get country_id
+     *
      * @return string|null
      */
     public function getCountryId()
@@ -146,6 +160,7 @@ class City extends \Magento\Framework\Api\AbstractExtensibleObject implements Ci
 
     /**
      * Set country_id
+     *
      * @param string $countryId
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */

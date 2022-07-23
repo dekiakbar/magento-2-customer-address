@@ -45,6 +45,8 @@ class ConvertToCsv
     protected $regionFactory;
 
     /**
+     * Constructor
+     *
      * @param Filesystem $filesystem
      * @param Filter $filter
      * @param MetadataProvider $metadataProvider
@@ -118,7 +120,7 @@ class ConvertToCsv
     }
 
     /**
-     * remove unnecessary array
+     * Remove unnecessary array
      *
      * @param array $data
      * @return array
@@ -142,7 +144,7 @@ class ConvertToCsv
     }
 
     /**
-     * remove unnecessary array and add region code
+     * Remove unnecessary array and add region code
      *
      * @param \Magento\Framework\Api\Search\DocumentInterface $item
      * @return array

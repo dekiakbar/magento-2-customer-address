@@ -10,35 +10,41 @@ namespace Deki\CustomerAddress\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\App\Helper\Context;
+use Magento\Directory\Model\Region;
+use Magento\Directory\Model\ResourceModel\Region as ResourceRegion;
+use Magento\Directory\Model\RegionFactory;
 
 class Common extends AbstractHelper
 {
     /**
-     * @var \Magento\Directory\Model\Region
+     * @var Region
      */
     protected $regionModel;
     
     /**
-     * @var \Magento\Directory\Model\ResourceModel\Region
+     * @var ResourceRegion
      */
     protected $resourceRegion;
 
     /**
-     * @var \Magento\Directory\Model\RegionFactory
+     * @var RegionFactory
      */
     protected $regionFactory;
 
     /**
-     * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Directory\Model\Region $regionModel,
-     * @param \Magento\Directory\Model\ResourceModel\Region $resourceRegion,
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * Constructor
+     *
+     * @param Context $context
+     * @param Region $regionModel
+     * @param ResourceRegion $resourceRegion
+     * @param RegionFactory $regionFactory
      */
     public function __construct(
-        \Magento\Framework\App\Helper\Context $context,
-        \Magento\Directory\Model\Region $regionModel,
-        \Magento\Directory\Model\ResourceModel\Region $resourceRegion,
-        \Magento\Directory\Model\RegionFactory $regionFactory
+        Context $context,
+        Region $regionModel,
+        ResourceRegion $resourceRegion,
+        RegionFactory $regionFactory
     ) {
         $this->regionModel = $regionModel;
         $this->resourceRegion = $resourceRegion;
@@ -47,7 +53,7 @@ class Common extends AbstractHelper
     }
 
     /**
-     * build region code based country id and region name
+     * Build region code based country id and region name
      *
      * @param string $countryId
      * @param string $regionName
@@ -74,7 +80,7 @@ class Common extends AbstractHelper
     }
 
     /**
-     * save new region
+     * Save new region
      *
      * @param string $countryId
      * @param string $regionCode
@@ -108,7 +114,7 @@ class Common extends AbstractHelper
     }
 
     /**
-     * check if region exist
+     * Check if region exist
      *
      * @param string $countryId
      * @param string $regionCode

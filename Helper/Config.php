@@ -12,10 +12,14 @@ use Magento\Store\Model\ScopeInterface;
 
 class Config extends AbstractHelper
 {
-    const ENABLE = 'customeraddress/general/enable';
-    const ENABLE_POSTCODE = 'customeraddress/general/enable_postcode';
-    const MINIMUM_SEARCH_LENGTH = 'customeraddress/general/minimum_search_length';
-    const FORCE_SELECT_CITY = 'customeraddress/general/force_select_city';
+    /** @var string */
+    public const ENABLE = 'customeraddress/general/enable';
+    /** @var string */
+    public const ENABLE_POSTCODE = 'customeraddress/general/enable_postcode';
+    /** @var string */
+    public const MINIMUM_SEARCH_LENGTH = 'customeraddress/general/minimum_search_length';
+    /** @var string */
+    public const FORCE_SELECT_CITY = 'customeraddress/general/force_select_city';
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -23,6 +27,8 @@ class Config extends AbstractHelper
     protected $scopeConfig;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
@@ -35,6 +41,8 @@ class Config extends AbstractHelper
     }
 
     /**
+     * Is module enabled
+     *
      * @return bool
      */
     public function isEnabled()
@@ -43,6 +51,8 @@ class Config extends AbstractHelper
     }
 
     /**
+     * Is postcode Enabled
+     *
      * @return bool
      */
     public function isPostcodeEnabled()
@@ -51,6 +61,8 @@ class Config extends AbstractHelper
     }
 
     /**
+     * Get minimum search length
+     *
      * @return int
      */
     public function getMinimunSearcLength()
@@ -59,6 +71,8 @@ class Config extends AbstractHelper
     }
 
     /**
+     * Is force city from dropdown enabled
+     *
      * @return bool
      */
     public function isForceCityEnabled()

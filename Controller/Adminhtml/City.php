@@ -7,19 +7,26 @@ declare(strict_types=1);
 
 namespace Deki\CustomerAddress\Controller\Adminhtml;
 
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Registry;
+use Magento\Backend\Model\View\Result\Page;
+
 abstract class City extends \Magento\Backend\App\Action
 {
-
+    /** @var Registry */
     protected $_coreRegistry;
-    const ADMIN_RESOURCE = 'Deki_CustomerAddress::top_level';
+    /** @var string */
+    private const ADMIN_RESOURCE = 'Deki_CustomerAddress::top_level';
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\Registry $coreRegistry
+     * Contructor
+     *
+     * @param Context $context
+     * @param Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\Registry $coreRegistry
+        Context $context,
+        Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -28,8 +35,8 @@ abstract class City extends \Magento\Backend\App\Action
     /**
      * Init page
      *
-     * @param \Magento\Backend\Model\View\Result\Page $resultPage
-     * @return \Magento\Backend\Model\View\Result\Page
+     * @param Page $resultPage
+     * @return Page
      */
     public function initPage($resultPage)
     {

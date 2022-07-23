@@ -14,6 +14,7 @@ interface CityRepositoryInterface
 
     /**
      * Save city
+     *
      * @param \Deki\CustomerAddress\Api\Data\CityInterface $city
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -24,6 +25,7 @@ interface CityRepositoryInterface
 
     /**
      * Retrieve city
+     *
      * @param string $cityId
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -32,6 +34,7 @@ interface CityRepositoryInterface
 
     /**
      * Retrieve city matching the specified criteria.
+     *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Deki\CustomerAddress\Api\Data\CitySearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -42,6 +45,7 @@ interface CityRepositoryInterface
 
     /**
      * Delete city
+     *
      * @param \Deki\CustomerAddress\Api\Data\CityInterface $city
      * @return bool true on success
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -52,6 +56,7 @@ interface CityRepositoryInterface
 
     /**
      * Delete city by ID
+     *
      * @param string $cityId
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException

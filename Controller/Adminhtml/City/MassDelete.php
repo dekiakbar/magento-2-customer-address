@@ -52,6 +52,16 @@ class MassDelete extends City implements HttpPostActionInterface
      */
     protected $coreRegistry;
 
+    /**
+     * Constructor
+     *
+     * @param Context $context
+     * @param Filter $filter
+     * @param CollectionFactory $collectionFactory
+     * @param CityRepositoryInterface|null $cityRepositoryInterface
+     * @param LoggerInterface|null $logger
+     * @param Registry $coreRegistry
+     */
     public function __construct(
         Context $context,
         Filter $filter,

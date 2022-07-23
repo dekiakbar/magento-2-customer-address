@@ -12,12 +12,14 @@ interface CitySearchResultsInterface extends \Magento\Framework\Api\SearchResult
 
     /**
      * Get city list.
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface[]
      */
     public function getItems();
 
     /**
      * Set region_id list.
+     *
      * @param \Deki\CustomerAddress\Api\Data\CityInterface[] $items
      * @return $this
      */

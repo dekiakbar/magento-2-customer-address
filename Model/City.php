@@ -22,6 +22,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Get city_id
+     *
      * @return string|null
      */
     public function getCityId()
@@ -31,7 +32,9 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Set city_id
+     *
      * @param string $cityId
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setCityId($cityId)
@@ -41,6 +44,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Get region_id
+     *
      * @return string|null
      */
     public function getRegionId()
@@ -50,7 +54,9 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Set region_id
+     *
      * @param string $regionId
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setRegionId($regionId)
@@ -60,6 +66,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Get name
+     *
      * @return string|null
      */
     public function getName()
@@ -69,7 +76,9 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Set name
+     *
      * @param string $name
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setName($name)
@@ -79,6 +88,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Get postcode
+     *
      * @return string|null
      */
     public function getPostcode()
@@ -88,7 +98,9 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Set postcode
+     *
      * @param string $postcode
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setPostcode($postcode)
@@ -98,6 +110,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Get updated_at
+     *
      * @return string|null
      */
     public function getUpdatedAt()
@@ -107,7 +120,9 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Set updated_at
+     *
      * @param string $updatedAt
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setUpdatedAt($updatedAt)
@@ -117,6 +132,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Get created_at
+     *
      * @return string|null
      */
     public function getCreatedAt()
@@ -126,7 +142,9 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Set created_at
+     *
      * @param string $createdAt
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setCreatedAt($createdAt)
@@ -136,6 +154,7 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Get country_id
+     *
      * @return string|null
      */
     public function getCountryId()
@@ -145,7 +164,9 @@ class City extends \Magento\Framework\Model\AbstractModel implements CityInterfa
 
     /**
      * Set country_id
+     *
      * @param string $countryId
+     *
      * @return \Deki\CustomerAddress\Api\Data\CityInterface
      */
     public function setCountryId($countryId)

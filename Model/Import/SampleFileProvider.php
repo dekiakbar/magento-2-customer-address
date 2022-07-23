@@ -81,6 +81,10 @@ class SampleFileProvider
     }
 
     /**
+     * Get relative path
+     *
+     * @param string $entityName
+     *
      * @return string $entityName
      * @throws NoSuchEntityException
      */
@@ -101,7 +105,10 @@ class SampleFileProvider
     }
 
     /**
+     * Get directory for read.
+     *
      * @param string $entityName
+     *
      * @return ReadInterface
      */
     private function getDirectoryRead(string $entityName): ReadInterface
@@ -114,7 +121,10 @@ class SampleFileProvider
     }
 
     /**
+     * Get Module Name
+     *
      * @param string $entityName
+     *
      * @return string
      * @throws NoSuchEntityException
      */

@@ -75,7 +75,7 @@ class GridToCsv extends Action
     /**
      * Checking if the user has access to requested component.
      *
-     * @inheritDoc
+     * @return bool
      */
     protected function _isAllowed()
     {

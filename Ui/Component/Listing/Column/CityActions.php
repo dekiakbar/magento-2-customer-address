@@ -4,28 +4,37 @@
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
-
 namespace Deki\CustomerAddress\Ui\Component\Listing\Column;
+
+use Magento\Framework\View\Element\UiComponent\ContextInterface;
+use Magento\Framework\View\Element\UiComponentFactory;
+use Magento\Framework\UrlInterface;
 
 class CityActions extends \Magento\Ui\Component\Listing\Columns\Column
 {
 
-    const URL_PATH_DELETE = 'deki_customeraddress/city/delete';
+    /** @var string */
+    public const URL_PATH_DELETE = 'deki_customeraddress/city/delete';
+    /** @var string */
+    public const URL_PATH_DETAILS = 'deki_customeraddress/city/details';
+    /** @var string */
+    public const URL_PATH_EDIT = 'deki_customeraddress/city/edit';
+    /** @var UrlInterface */
     protected $urlBuilder;
-    const URL_PATH_DETAILS = 'deki_customeraddress/city/details';
-    const URL_PATH_EDIT = 'deki_customeraddress/city/edit';
 
     /**
-     * @param \Magento\Framework\View\Element\UiComponent\ContextInterface $context
-     * @param \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory
-     * @param \Magento\Framework\UrlInterface $urlBuilder
+     * Constructor
+     *
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param UrlInterface $urlBuilder
      * @param array $components
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\UiComponent\ContextInterface $context,
-        \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory,
-        \Magento\Framework\UrlInterface $urlBuilder,
+        ContextInterface $context,
+        UiComponentFactory $uiComponentFactory,
+        UrlInterface $urlBuilder,
         array $components = [],
         array $data = []
     ) {

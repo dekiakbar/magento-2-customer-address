@@ -7,20 +7,27 @@ declare(strict_types=1);
 
 namespace Deki\CustomerAddress\Controller\Adminhtml\City;
 
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Registry;
+use Magento\Backend\Model\View\Result\ForwardFactory;
+use Magento\Framework\Controller\ResultInterface;
+
 class NewAction extends \Deki\CustomerAddress\Controller\Adminhtml\City
 {
-
+    /** @var ForwardFactory */
     protected $resultForwardFactory;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
+     * Constructor
+     *
+     * @param Context $context
+     * @param Registry $coreRegistry
+     * @param ForwardFactory $resultForwardFactory
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\Registry $coreRegistry,
-        \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
+        Context $context,
+        Registry $coreRegistry,
+        ForwardFactory $resultForwardFactory
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
         parent::__construct($context, $coreRegistry);
@@ -29,7 +36,7 @@ class NewAction extends \Deki\CustomerAddress\Controller\Adminhtml\City
     /**
      * New action
      *
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return ResultInterface
      */
     public function execute()
     {

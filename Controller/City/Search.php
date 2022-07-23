@@ -10,6 +10,11 @@ namespace Deki\CustomerAddress\Controller\City;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\InvalidArgumentException;
+use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\App\Response\Http;
+use Magento\Framework\App\RequestInterface;
+use Deki\CustomerAddress\Model\ResourceModel\City\CollectionFactory;
 
 class Search implements HttpGetActionInterface
 {
@@ -39,18 +44,18 @@ class Search implements HttpGetActionInterface
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param \Magento\Framework\Serialize\Serializer\Json $json
-     * @param \Magento\Framework\App\Response\Http $http
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Deki\CustomerAddress\Model\ResourceModel\City\CollectionFactory $cityCollectionFactory
+     * @param PageFactory $resultPageFactory
+     * @param Json $json
+     * @param Http $http
+     * @param RequestInterface $request
+     * @param CollectionFactory $cityCollectionFactory
      */
     public function __construct(
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Magento\Framework\Serialize\Serializer\Json $json,
-        \Magento\Framework\App\Response\Http $http,
-        \Magento\Framework\App\RequestInterface $request,
-        \Deki\CustomerAddress\Model\ResourceModel\City\CollectionFactory $cityCollectionFactory
+        PageFactory $resultPageFactory,
+        Json $json,
+        Http $http,
+        RequestInterface $request,
+        CollectionFactory $cityCollectionFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->serializer = $json;
@@ -82,6 +87,7 @@ class Search implements HttpGetActionInterface
     /**
      * Create json response
      *
+     * @param CollectionFactory $response
      * @return ResultInterface
      */
     public function jsonResponse($response = '')
