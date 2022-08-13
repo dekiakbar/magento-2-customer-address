@@ -9,7 +9,12 @@ namespace Deki\CustomerAddress\Model\ResourceModel;
 
 class City extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
-
+    /**
+     * Constants related to specific db layer
+     */
+    const TABLE_NAME_SOURCE_ITEM = 'deki_customeraddress_city';
+    const ID_FIELD_NAME = 'city_id';
+    
     /**
      * Define resource model
      *

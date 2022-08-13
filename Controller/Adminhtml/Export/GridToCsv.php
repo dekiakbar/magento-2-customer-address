@@ -7,7 +7,7 @@ namespace Deki\CustomerAddress\Controller\Adminhtml\Export;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Deki\CustomerAddress\Model\Export\ConvertToCsv;
+use Deki\CustomerAddress\Model\Export\Grid\ConvertToCsv;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ObjectManager;
 use Magento\Ui\Component\MassAction\Filter;

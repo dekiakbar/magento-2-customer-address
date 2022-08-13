@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_ImportExport:etc/export.xsd">
+    <entity name="customer_address_city" label="Customers Address City" model="Deki\CustomerAddress\Model\Export\City" entityAttributeFilterType="customer_address_city"/>
+    <!-- <fileFormat name="csv" label="CSV" model="Magento\ImportExport\Model\Export\Adapter\Csv" /> -->
+</config>

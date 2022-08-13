@@ -11,16 +11,22 @@ interface CityInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /** @var string */
     public const COUNTRY_ID = 'country_id';
+    
     /** @var string */
     public const UPDATED_AT = 'updated_at';
+    
     /** @var string */
     public const CREATED_AT = 'created_at';
+    
     /** @var string */
     public const REGION_ID = 'region_id';
+    
     /** @var string */
     public const CITY_ID = 'city_id';
+    
     /** @var string */
     public const POSTCODE = 'postcode';
+    
     /** @var string */
     public const NAME = 'name';
 

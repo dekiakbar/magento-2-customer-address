@@ -128,4 +128,19 @@ class Common extends AbstractHelper
         }
         return false;
     }
+
+    /**
+     * Check if region exist
+     *
+     * @param string $regionId
+     * @return boolean
+     */
+    public function isRegionExist($regionId)
+    {
+        $region = $this->regionFactory->create()->load($regionId);
+        if ($region->getId()) {
+            return true;
+        }
+        return false;
+    }
 }
