@@ -18,20 +18,28 @@ class City extends AbstractEntity
 {
     /** @var string */
     public const ENTITY_CODE = 'deki_customeraddress';
+
     /** @var string */
     public const TABLE = 'deki_customeraddress_city';
+
     /** @var string */
     public const ENTITY_ID_COLUMN = 'city_id';
+
     /** @var string */
     public const COUNTRY_ID = 'country_id';
+
     /** @var string */
     public const REGION_CODE = 'region_code';
+
     /** @var string */
     public const REGION_ID = 'region_id';
+
     /** @var string */
     public const NAME = 'name';
+
     /** @var string */
     public const POSTCODE = 'postcode';
+
     
     /**
      * If we should check column names
@@ -64,7 +72,7 @@ class City extends AbstractEntity
     protected $validColumnNames = [
         self::ENTITY_ID_COLUMN,
         self::COUNTRY_ID,
-        self::REGION_CODE,
+        self::REGION_ID,
         self::NAME,
         self::POSTCODE
     ];
@@ -141,12 +149,12 @@ class City extends AbstractEntity
             __('Country Id cannot be empty.')
         );
         $this->addMessageTemplate(
-            'regionCodeIsRequired',
-            __('Region Code cannot be empty.')
+            'regionIdIsRequired',
+            __('Region ID cannot be empty.')
         );
         $this->addMessageTemplate(
-            'regionCodeNotFound',
-            __("Region Code doesn't exist.")
+            'regionIdNotFound',
+            __("Region ID doesn't exist.")
         );
         $this->addMessageTemplate(
             'nameIsRequired',
@@ -165,23 +173,23 @@ class City extends AbstractEntity
     public function validateRow(array $rowData, $rowNum): bool
     {
         $countryId = $rowData[self::COUNTRY_ID] ?? '';
-        $regionCode = $rowData[self::REGION_CODE] ?? '';
+        $regionId = $rowData[self::REGION_ID] ?? '';
         $name = $rowData[self::NAME] ?? '';
         
         if (!$countryId) {
             $this->addRowError('countryIdIsRequired', $rowNum);
         }
         
-        if (!$regionCode) {
-            $this->addRowError('regionCodeIsRequired', $rowNum);
+        if (!$regionId) {
+            $this->addRowError('regionIdIsRequired', $rowNum);
         }
 
         if (!$name) {
             $this->addRowError('nameIsRequired', $rowNum);
         }
 
-        if (!$this->commonHelper->isRegionExistByCode($countryId, $regionCode)) {
-            $this->addRowError('regionCodeNotFound', $rowNum);
+        if (!$this->commonHelper->isRegionExist($regionId)) {
+            $this->addRowError('regionIdNotFound', $rowNum);
         }
 
         if (isset($this->_validatedRows[$rowNum])) {
@@ -298,7 +306,8 @@ class City extends AbstractEntity
                     $columnValues[$columnKey] = $row[$columnKey];
                 }
 
-                $entityList[$rowId][] = $this->transformRegionCodeToRegionId($columnValues);
+                // $entityList[$rowId][] = $this->transformRegionCodeToRegionId($columnValues);
+                $entityList[$rowId][] = $columnValues;
                 $this->countItemsCreated += (int) !isset($row[self::ENTITY_ID_COLUMN]);
                 $this->countItemsUpdated += (int) isset($row[self::ENTITY_ID_COLUMN]);
             }
@@ -337,8 +346,9 @@ class City extends AbstractEntity
                 return true;
             }
 
-            return false;
         }
+        
+        return false;
     }
 
     /**

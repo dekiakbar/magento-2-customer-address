@@ -8,6 +8,10 @@
 				<minimum_search_length>4</minimum_search_length>
 				<force_select_city>1</force_select_city>
 			</general>
+			<info>
+				<github_url>https://github.com/dekiakbar/magento-2-customer-address</github_url>
+				<docs_url>https://github.com/dekiakbar/magento-2-customer-address/wiki</docs_url>
+			</info>
 		</customeraddress>
 
 		<!-- fix : The Content-Security-Policy directive 'frame-ancestors' does not support the source expression ''unsafe-inline'' -->

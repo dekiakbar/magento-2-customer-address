@@ -32,4 +32,17 @@
 				</argument>
 		</arguments>
 	</type>
+	<!-- Custom System Export -->
+	<preference for="Deki\CustomerAddress\Model\Export\CityCollectionFactoryInterface" type="Deki\CustomerAddress\Model\Export\CityCollectionFactory"/>
+    <preference for="Deki\CustomerAddress\Model\Export\ColumnProviderInterface" type="Deki\CustomerAddress\Model\Export\ColumnProvider"/>
+    <type name="Deki\CustomerAddress\Model\Export\FilterProcessorAggregator">
+        <arguments>
+            <argument name="handler" xsi:type="array">
+                <item name="int" xsi:type="object">Deki\CustomerAddress\Model\Export\Filter\IntFilter</item>
+                <!-- IntFilter is also used for 'decimal' type -->
+                <item name="decimal" xsi:type="object">Deki\CustomerAddress\Model\Export\Filter\IntFilter</item>
+                <item name="varchar" xsi:type="object">Deki\CustomerAddress\Model\Export\Filter\VarcharFilter</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -3,7 +3,7 @@
  * Copyright © Deki. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Deki\CustomerAddress\Model\Export;
+namespace Deki\CustomerAddress\Model\Export\Grid;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
@@ -103,7 +103,7 @@ class ConvertToCsv
         while ($totalCount > 0) {
             $items = $dataProvider->getSearchResult()->getItems();
             foreach ($items as $item) {
-                $rowData = $this->processRegion($item);
+                $rowData = $this->removeUnnecessaryData($item->getData());
                 $stream->writeCsv($rowData);
             }
             $searchCriteria->setCurrentPage(++$i);
@@ -120,7 +120,7 @@ class ConvertToCsv
     }
 
     /**
-     * Remove unnecessary array
+     * Remove unnecessary data.
      *
      * @param array $data
      * @return array
@@ -137,25 +137,7 @@ class ConvertToCsv
         unset($data['updated_at']);
         unset($data['created_at']);
         unset($data['updated_at']);
-        unset($data['region_id']);
-        $data["region_code"] = null;
         
         return $data;
-    }
-
-    /**
-     * Remove unnecessary array and add region code
-     *
-     * @param \Magento\Framework\Api\Search\DocumentInterface $item
-     * @return array
-     * @throws LocalizedException
-     */
-    public function processRegion(\Magento\Framework\Api\Search\DocumentInterface $item)
-    {
-        $item = $item->getData();
-        $region = $this->regionFactory->create()->load($item['region_id']);
-        $item = $this->removeUnnecessaryData($item);
-        $item['region_code'] = $region->getCode();
-        return $item;
     }
 }

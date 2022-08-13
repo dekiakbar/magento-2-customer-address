@@ -15,8 +15,9 @@ abstract class City extends \Magento\Backend\App\Action
 {
     /** @var Registry */
     protected $_coreRegistry;
+    
     /** @var string */
-    private const ADMIN_RESOURCE = 'Deki_CustomerAddress::top_level';
+    public const ADMIN_RESOURCE = 'Deki_CustomerAddress::top_level';
 
     /**
      * Contructor

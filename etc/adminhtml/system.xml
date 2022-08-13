@@ -30,6 +30,10 @@
 					<comment>If this enabled, customer will forced to select city from dropdown, if customer not select city from dropdown the city form and postcode will forced to empty</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
+				<field id="info" translate="label" type="note" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Module Info</label>
+					<frontend_model>Deki\CustomerAddress\Block\Adminhtml\System\Config\Info</frontend_model>
+				</field>
 			</group>
 		</section>
 	</system>
