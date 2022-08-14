@@ -12,6 +12,8 @@ use \Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\HTTP\ClientInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Exception\LocalizedException;
+use Psr\Log\LoggerInterface;
+use Exception;
 
 class Info
 {
@@ -61,22 +63,30 @@ class Info
     private $json;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      *
      * @param PackageInfo $packageInfo
      * @param ScopeConfigInterface $scopeConfig
      * @param ClientInterface $client
      * @param Json $json
+     * @param LoggerInterface $logger
      */
     public function __construct(
         PackageInfo $packageInfo,
         ScopeConfigInterface $scopeConfig,
         ClientInterface $client,
-        Json $json
+        Json $json,
+        LoggerInterface $logger
     ) {
         $this->packageInfo = $packageInfo;
         $this->scopeConfig = $scopeConfig;
         $this->client = $client;
         $this->json = $json;
+        $this->logger = $logger;
     }
     
     /**
@@ -136,20 +146,24 @@ class Info
     /**
      * Get latest available version of module
      *
-     * @throws LocalizedException
      * @return string
      */
     public function getLatestVersion()
     {
-        $this->client->get('https://packagist.org/packages/'.$this->getPackageName().'.json');
-        if ($this->client->getStatus() !== 200) {
-            throw new LocalizedException(__('Unable to connect packagist API'));
+        try {
+            $this->client->get('https://packagist.org/packages/'.$this->getPackageName().'.json');
+            if ($this->client->getStatus() !== 200) {
+                throw new LocalizedException(__('Unable to connect packagist API'));
+            }
+    
+            $res = $this->json->unserialize($this->client->getBody());
+            unset($res['package']['versions']['dev-master']);
+            $latest = array_key_first($res['package']['versions']);
+            
+            return $latest;
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage());
+            return __("Ops...cannot check latest version, please check the log at var/log/customer-address");
         }
-
-        $res = $this->json->unserialize($this->client->getBody());
-        unset($res['package']['versions']['dev-master']);
-        $latest = array_key_first($res['package']['versions']);
-        
-        return $latest;
     }
 }
