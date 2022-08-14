@@ -45,4 +45,17 @@
             </argument>
         </arguments>
     </type>
+	<!-- Custom Logger -->
+	<virtualType name="CusromerAddressLogger" type="Magento\Framework\Logger\Monolog">
+		<arguments>
+			<argument name="handlers" xsi:type="array">
+				<item name="error" xsi:type="object">Deki\CustomerAddress\Logger\Handler\ErrorHandler</item>
+			</argument>
+		</arguments>
+	</virtualType>
+	<type name="Deki\CustomerAddress\Model\Info">
+		<arguments>
+			<argument name="logger" xsi:type="object">CusromerAddressLogger</argument>
+		</arguments>
+	</type>
 </config>
