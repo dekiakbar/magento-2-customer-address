@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="Deki_CustomerAddress::css/jquery-ui.css"/>
+        <css src="Deki_CustomerAddress::css/select2.min.css" />
     </head>
     <referenceBlock name="head.additional">
         <block class="Deki\CustomerAddress\Block\Adminhtml\Customer\Address\Edit\ConfigJs" name="customer_address_js_config"

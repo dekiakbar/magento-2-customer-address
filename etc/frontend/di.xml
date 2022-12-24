@@ -8,9 +8,12 @@
             </argument>
         </arguments>
     </type>
-
     <!-- Add autocomplete to city field in billing address -->
-    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
-        <plugin name="customer_city_billing_address" type="Deki\CustomerAddress\Plugin\Frontend\CheckoutBillingAddress" sortOrder="1" disabled="false" />
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="city_autocomplete" xsi:type="object">Deki\CustomerAddress\Block\Checkout\LayoutProcessor</item>
+            </argument>
+        </arguments>
     </type>
 </config>

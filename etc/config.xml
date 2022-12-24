@@ -6,7 +6,6 @@
 				<enable>1</enable>
 				<enable_postcode>1</enable_postcode>
 				<minimum_search_length>4</minimum_search_length>
-				<force_select_city>1</force_select_city>
 			</general>
 			<info>
 				<github_url>https://github.com/dekiakbar/magento-2-customer-address</github_url>
@@ -17,11 +16,11 @@
 		<!-- fix : The Content-Security-Policy directive 'frame-ancestors' does not support the source expression ''unsafe-inline'' -->
 		<csp>
 			<policies>
-					<storefront>
-							<frame-ancestors>
-									<inline>0</inline>
-							</frame-ancestors>
-					</storefront>
+				<storefront>
+					<frame-ancestors>
+						<inline>0</inline>
+					</frame-ancestors>
+				</storefront>
 			</policies>
 		</csp>
 	</default>

@@ -3,14 +3,17 @@
  * Copyright © Deki All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Deki\CustomerAddress\Plugin\Frontend;
+declare(strict_types=1);
 
-use Magento\Checkout\Block\Checkout\LayoutProcessor;
+namespace Deki\CustomerAddress\Block\Checkout;
+
+use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\Checkout\Helper\Data;
 
-class CheckoutBillingAddress
+class LayoutProcessor implements LayoutProcessorInterface
 {
-    const CITY_COMPONENT = 'Deki_CustomerAddress/js/checkout/address/city-autocomplete';
+    public const CITY_COMPONENT = 'Deki_CustomerAddress/js/checkout/address/city-autocomplete';
+    public const CITY_ELEMENT_TEMPLATE = 'Deki_CustomerAddress/form/element/select';
 
     /**
      * @var Data
@@ -27,20 +30,11 @@ class CheckoutBillingAddress
     }
 
     /**
-     * Added autocomplete to city field in billing address form
-     *
-     * @param LayoutProcessor $layoutProcessor
-     * @param array           $jsLayout
-     *
+     * @param array $jsLayout
      * @return array
-     *
-     * @throws InputException
      */
-    public function afterProcess(
-        LayoutProcessor $layoutProcessor,
-        $jsLayout
-    ) {
-        // The if billing address should be displayed on Payment method or page
+    public function process($jsLayout)
+    {
         if ($this->_checkoutDataHelper->isDisplayBillingOnPaymentMethodAvailable()) {
             $jsLayout['components']['checkout']['children']['steps']['children']
                 ['billing-step']['children']['payment']['children']['payments-list']
@@ -60,7 +54,7 @@ class CheckoutBillingAddress
                     $afterMethodsLayout
                 );
         }
-        
+
         return $jsLayout;
     }
 
@@ -77,6 +71,8 @@ class CheckoutBillingAddress
             if (array_key_exists('form-fields', $paymentMethod['children'])) {
                 $paymentMethodLayouts[$code]['children']['form-fields']
                     ['children']['city']['component'] = self::CITY_COMPONENT;
+                $paymentMethodLayouts[$code]['children']['form-fields']
+                    ['children']['city']['config']['elementTmpl'] = self::CITY_ELEMENT_TEMPLATE;
             }
         }
 
@@ -95,6 +91,8 @@ class CheckoutBillingAddress
         if (array_key_exists('billing-address-form', $afterMethodsLayout)) {
             $afterMethodsLayout['billing-address-form']['children']['form-fields']
                 ['children']['city']['component'] = self::CITY_COMPONENT;
+            $afterMethodsLayout['billing-address-form']['children']['form-fields']
+                ['children']['city']['config']['elementTmpl'] = self::CITY_ELEMENT_TEMPLATE;
         }
 
         return $afterMethodsLayout;

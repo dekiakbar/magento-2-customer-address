@@ -3,6 +3,7 @@
 	<preference for="Deki\CustomerAddress\Api\CityRepositoryInterface" type="Deki\CustomerAddress\Model\CityRepository"/>
 	<preference for="Deki\CustomerAddress\Api\Data\CityInterface" type="Deki\CustomerAddress\Model\Data\City"/>
 	<preference for="Deki\CustomerAddress\Api\Data\CitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<preference for="Deki\CustomerAddress\Api\Data\CityAutocompleteSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 	<virtualType name="Deki\CustomerAddress\Model\ResourceModel\City\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
 		<arguments>
 			<argument name="mainTable" xsi:type="string">deki_customeraddress_city</argument>
