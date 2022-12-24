@@ -7,7 +7,7 @@
 -->
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd" component="Magento_Customer/js/form/components/form">
     <fieldset name="general">
-        <field name="city" sortOrder="100" component="Deki_CustomerAddress/js/customer/address/city-autocomplete" formElement="input">
+        <field name="city" sortOrder="100" component="Deki_CustomerAddress/js/customer/address/city-autocomplete" formElement="select">
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">City</label>
@@ -15,6 +15,8 @@
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
                 </validation>
+                <elementTmpl>Deki_CustomerAddress/form/element/select</elementTmpl>
+                <componentType>form.select</componentType>
             </settings>
         </field>
     </fieldset>

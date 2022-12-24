@@ -25,11 +25,6 @@
 					<validate>required-entry validate-digits validate-not-negative-number</validate>
 					<comment>How manty character for triggering search city request</comment>
 				</field>
-				<field id="force_select_city" type="select" sortOrder="40" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
-					<label>Force select city from dropdown</label>
-					<comment>If this enabled, customer will forced to select city from dropdown, if customer not select city from dropdown the city form and postcode will forced to empty</comment>
-					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-				</field>
 				<field id="info" translate="label" type="note" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Module Info</label>
 					<frontend_model>Deki\CustomerAddress\Block\Adminhtml\System\Config\Info</frontend_model>

@@ -1,86 +1,147 @@
-
 /**
  * Copyright © Deki. All rights reserved.
  * See COPYING.txt for license details.
  */
-
- define([
+define([
     'Magento_Ui/js/form/element/abstract',
+    'underscore',
     'uiRegistry',
-    'mage/url',
+    'Deki_CustomerAddress/js/model/url-builder',
+    'mage/translate',
     'jquery',
-    'jquery/ui'
-], function (Abstract, uiRegistry, urlbuild, $) {
+    'select2'
+], function (Abstract, _, uiRegistry, urlBuilder, $t, $) {
     'use strict';
 
     return Abstract.extend({
         defaults: {
             skipValidation: false,
             imports: {
-                regionInput: '${ $.parentName }.region_id_input:value',
                 regionId: '${ $.parentName }.region_id:value',
+                countryUpdate: '${ $.parentName }.country_id:value',
+                regionOptions: '${ $.parentName }.region_id:options',
+                postcodeName: '${ $.parentName }.postcode:name'
             },
-            postCodeIndex: 'postcode',
-            valueUpdate: 'keypress'
+            url: urlBuilder.createUrl('/customer-address/autocomplete', {}),
+            minimumInputLength: window.checkoutConfig.customerAddress.minimunSearcLength,
+            postcodeEnabled: window.checkoutConfig.customerAddress.postcodeEnabled,
+            searchDelay: 500,
+            placeholder: $t("Please select a city")
         },
 
         /**
-         * Callback that fires when 'value' property is updated.
+         * Re-init city elemtn if cuntry changed.
+         * 
+         * @param {string} countryId 
          */
-        onUpdate: function () {
-            var regionId = this.regionId;
-            var keyword = this.value;
-            var postcodeEnabled = window.checkoutConfig.customerAddress.postcodeEnabled;
-            var minimunSearcLength = window.checkoutConfig.customerAddress.minimunSearcLength;
-            var isForceCityEnabled = window.checkoutConfig.customerAddress.isForceCityEnabled;
-            var postCode = uiRegistry.get(this.parentName)
-                .getChild(this.postCodeIndex);
-            var city = this;
+        countryUpdate: function(countryId){
+            if(_.isEmpty(this.regionOptions)){
+                this.initSelect();
+            }else{
+                this.initAjaxSelect();
+            }
+        },
 
-            $("#"+this.uid).autocomplete({
-                source: function( request, response ) {
-                    if(isNaN(regionId) === false){
-                        $.ajax( {
-                            url: urlbuild.build('customeraddress/city/search'),
-                            dataType: "json",
-                            method: "GET",
-                            data: {
-                                query: keyword,
-                                region_id: regionId
-                            },
-                            success: function( data ) {
-                                response($.map( data, function( item ) {
-                                    return {
-                                        label: item.name,
-                                        value: item.name,
-                                        postcode: item.postcode
-                                    }
-                                }));
-                            }
-                        });
-                    }
-                },
-                open: function(event, ui) {
-                    $('.customer-address-autocomplete.ui-front.ui-menu').width($(event.target).outerWidth());
-                },
-                select: function (event, ui) {
-                    if(postcodeEnabled){
-                        postCode.value(ui.item.postcode);
-                    }
-                },
-                change: function (event, ui) {
-                    if(isForceCityEnabled){
-                        if (ui.item === null) {
-                            city.value('');
-                            postCode.value('');
+        /**
+         * Calls 'initObservable' of parent, this will make 
+         * getInitialValue() return an selected option
+         *
+         * @returns {Object} Chainable.
+         */
+        initObservable: function () {
+            this._super();
+            this.observe('options value');
+
+            return this;
+        },
+
+        /**
+         * Init select2 js to KO js select element
+         */
+        initSelectJs: function(){
+            if(_.isEmpty(this.regionOptions)){
+                this.initSelect();
+            }else{
+                this.initAjaxSelect();
+            }
+            
+            if(this.getInitialValue()){
+                this.setInitialOption(this.getInitialValue());
+            }
+        },
+        
+        /**
+         * Set initial option and create if option not exist
+         * 
+         * @param {string} value 
+         */
+        setInitialOption: function(value)
+        {
+            let initialOption = new Option(value, value, true, true);
+            $("#"+this.uid).append(initialOption).trigger('change');
+        },
+        
+        /**
+         * Init selectJs for country has region options
+         */
+        initAjaxSelect: function(){
+            var self = this;
+            $("#"+this.uid).select2({
+                placeholder: self.placeholder,
+                minimumInputLength: self.minimumInputLength,
+                multiple: false,
+                width: '100%',
+                ajax: {
+                    url: self.url,
+                    dataType: 'json',
+                    delay: self.searchDelay,
+                    data: function (params) {
+                        let query = {
+                            regionId: self.regionId,
+                            query: params.term,
                         }
+                        return query;
+                    },
+                    processResults: function (response) {
+                        let datas = $.map(response.items, function (city) {
+                            return {
+                                id: city.name,
+                                text: city.name,
+                                postcode: city.postcode
+                            };
+                        });
+                        
+                        return {
+                            results: datas
+                        };
                     }
-                },
-                classes: {
-                    "ui-autocomplete": "customer-address-autocomplete",
-                },
-                minLength: minimunSearcLength
+                }
+            });
+
+            $("#"+this.uid).on('select2:select',function(e){
+                let data = e.params.data;
+                self.value(data.text);
+                if(self.postcodeEnabled){
+                    if(data.postcode){
+                        let postCode = uiRegistry.get(self.postcodeName);
+                        postCode.value(data.postcode).trigger("change");
+                    }
+                }
             });
         },
+
+        /**
+         * Init city for country does not have region options
+         */
+        initSelect: function(){
+            var self = this;
+            $("#"+this.uid).select2({
+                minimumInputLength: self.minimumInputLength,
+                multiple: false,
+                placeholder: this.options.placeholder,
+                tags: true,
+                width: '100%'
+            });
+        }
     });
 });

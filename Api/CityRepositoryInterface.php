@@ -63,4 +63,14 @@ interface CityRepositoryInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function deleteById($cityId);
+
+    /**
+     * Find city by reqion Id and query
+     *
+     * @param string $regionId
+     * @param string|null $query
+     * @return \Deki\CustomerAddress\Api\Data\CityAutocompleteSearchResultsInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function autocomplete($regionId, $query = null);
 }

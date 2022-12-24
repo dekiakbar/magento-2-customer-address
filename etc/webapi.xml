@@ -30,4 +30,10 @@
 			<resource ref="Deki_CustomerAddress::city_delete"/>
 		</resources>
 	</route>
+	<route url="/V1/customer-address/autocomplete" method="GET">
+		<service class="Deki\CustomerAddress\Api\CityRepositoryInterface" method="autocomplete"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
 </routes>

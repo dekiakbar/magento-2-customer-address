@@ -7,7 +7,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="Deki_CustomerAddress::css/jquery-ui.css" />
+        <css src="Deki_CustomerAddress::css/select2.min.css" />
     </head>
     <body>
         <referenceBlock name="checkout.root">
@@ -25,8 +25,12 @@
                                                         <item name="shipping-address-fieldset" xsi:type="array">
                                                             <item name="children" xsi:type="array">
                                                                 <item name="city" xsi:type="array">
-                                                                    <!-- post-code field has custom UI component -->
+                                                                    <!-- city field has custom UI component -->
                                                                     <item name="component" xsi:type="string">Deki_CustomerAddress/js/checkout/address/city-autocomplete</item>
+                                                                    <item name="config" xsi:type="array">
+                                                                        <!-- Assigning a new template -->
+                                                                        <item name="elementTmpl" xsi:type="string">Deki_CustomerAddress/form/element/select</item>
+                                                                    </item>
                                                                 </item>
                                                             </item>
                                                         </item>

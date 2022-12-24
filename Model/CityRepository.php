@@ -20,9 +20,13 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Reflection\DataObjectProcessor;
-
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 class CityRepository implements CityRepositoryInterface
 {
+    /** @var int */
+    public const NO_QUERY_LIMIT = 200;
+
     /** @var DataObjectHelper */
     protected $dataObjectHelper;
     /** @var CityFactory */
@@ -40,9 +44,11 @@ class CityRepository implements CityRepositoryInterface
     /** @var DataObjectProcessor */
     protected $dataObjectProcessor;
     /** @var CollectionProcessorInterface */
-    private $collectionProcessor;
+    protected $collectionProcessor;
     /** @var searchResultsFactory */
     protected $searchResultsFactory;
+    /** @var SearchCriteriaBuilder */
+    protected $searchCriteriaBuilder;
 
     /**
      * @param ResourceCity $resource
@@ -55,6 +61,8 @@ class CityRepository implements CityRepositoryInterface
      * @param CollectionProcessorInterface $collectionProcessor
      * @param JoinProcessorInterface $extensionAttributesJoinProcessor
      * @param ExtensibleDataObjectConverter $extensibleDataObjectConverter
+     * @param Filter $filter
+     * @param FilterGroup $filterGroup
      */
     public function __construct(
         ResourceCity $resource,
@@ -66,7 +74,8 @@ class CityRepository implements CityRepositoryInterface
         DataObjectProcessor $dataObjectProcessor,
         CollectionProcessorInterface $collectionProcessor,
         JoinProcessorInterface $extensionAttributesJoinProcessor,
-        ExtensibleDataObjectConverter $extensibleDataObjectConverter
+        ExtensibleDataObjectConverter $extensibleDataObjectConverter,
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->resource = $resource;
         $this->cityFactory = $cityFactory;
@@ -78,6 +87,7 @@ class CityRepository implements CityRepositoryInterface
         $this->collectionProcessor = $collectionProcessor;
         $this->extensionAttributesJoinProcessor = $extensionAttributesJoinProcessor;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
@@ -122,7 +132,7 @@ class CityRepository implements CityRepositoryInterface
      * @inheritdoc
      */
     public function getList(
-        \Magento\Framework\Api\SearchCriteriaInterface $criteria
+        SearchCriteriaInterface $criteria
     ) {
         $collection = $this->cityCollectionFactory->create();
         
@@ -166,5 +176,26 @@ class CityRepository implements CityRepositoryInterface
     public function deleteById($cityId)
     {
         return $this->delete($this->get($cityId));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function autocomplete($regionId, $query = null)
+    {
+        $this->searchCriteriaBuilder->addFilter('region_id', $regionId);
+        $this->searchCriteriaBuilder->addFilter('name', "%".$query."%", "like");
+        
+        /**
+         * Limit response item if no query specified.
+         */
+        if(!$query){
+            $this->searchCriteriaBuilder->setPageSize(self::NO_QUERY_LIMIT);
+            $this->searchCriteriaBuilder->setCurrentPage(1);
+        }
+
+        $autocomplete = $this->searchCriteriaBuilder->create();
+
+        return $this->getList($autocomplete);
     }
 }

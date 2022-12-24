@@ -14,7 +14,7 @@ use \Magento\Framework\Url;
 
 class ConfigJs extends \Magento\Framework\View\Element\Template
 {
-
+    public const REST_API_PATH_URL = 'rest/default/V1/customer-address/autocomplete';
     /**
      * @var Url
      */
@@ -58,9 +58,8 @@ class ConfigJs extends \Magento\Framework\View\Element\Template
     public function getSerializedConfig()
     {
         $config = [
-            'enablePostcode' => $this->config->isPostcodeEnabled() ? true : false,
+            'postcodeEnabled' => $this->config->isPostcodeEnabled() ? true : false,
             'minSearchLength' => $this->config->getMinimunSearcLength(),
-            'isForceCityEnabled' => $this->config->isForceCityEnabled() ? true : false,
             'customerAddressUrl' => $this->getAdminAjaxUrl()
         ];
 
@@ -75,7 +74,7 @@ class ConfigJs extends \Magento\Framework\View\Element\Template
     public function getAdminAjaxUrl()
     {
         return $this->urlBuilder->getUrl(
-            'customeraddress/city/search'
+            self::REST_API_PATH_URL
         );
     }
 }
