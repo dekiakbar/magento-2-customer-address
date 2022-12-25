@@ -49,10 +49,9 @@ class ConvertToCsv
      *
      * @param Filesystem $filesystem
      * @param Filter $filter
-     * @param MetadataProvider $metadataProvider
-     * @param int $pageSize
+     * @param City $cityResource
      * @param RegionFactory $regionFactory
-     * @throws FileSystemException
+     * @param integer $pageSize
      */
     public function __construct(
         Filesystem $filesystem,

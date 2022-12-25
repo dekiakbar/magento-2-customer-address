@@ -43,8 +43,9 @@ class AttributeCollectionProvider
     }
 
     /**
+     * Get city collection
+     *
      * @return Collection
-     * @throws \Exception
      */
     public function get(): Collection
     {

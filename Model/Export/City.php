@@ -75,6 +75,7 @@ class City extends AbstractEntity
 
     /**
      * @inheritdoc
+     *
      * @throws Exception
      */
     public function export()
@@ -97,6 +98,7 @@ class City extends AbstractEntity
 
     /**
      * @inheritdoc
+     *
      * @throws Exception
      */
     protected function _getHeaderColumns()

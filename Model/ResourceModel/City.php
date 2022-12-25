@@ -12,8 +12,8 @@ class City extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     /**
      * Constants related to specific db layer
      */
-    const TABLE_NAME_SOURCE_ITEM = 'deki_customeraddress_city';
-    const ID_FIELD_NAME = 'city_id';
+    public const TABLE_NAME_SOURCE_ITEM = 'deki_customeraddress_city';
+    public const ID_FIELD_NAME = 'city_id';
     
     /**
      * Define resource model
@@ -22,7 +22,7 @@ class City extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('deki_customeraddress_city', 'city_id');
+        $this->_init(self::TABLE_NAME_SOURCE_ITEM, self::ID_FIELD_NAME);
     }
 
     /**

@@ -20,11 +20,17 @@ class CountryFilter extends AbstractSource
      */
     private $country;
 
+    /**
+     * Constructor
+     *
+     * @param Country $country
+     */
     public function __construct(
         Country $country
     ) {
         $this->country = $country;
     }
+
     /**
      * Retrieve All options
      *

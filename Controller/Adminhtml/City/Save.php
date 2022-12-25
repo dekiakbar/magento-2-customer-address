@@ -37,7 +37,6 @@ class Save extends \Magento\Backend\App\Action
      */
     protected $cityFactory;
 
-    
     /**
      * @param Context $context
      * @param DataPersistorInterface $dataPersistor

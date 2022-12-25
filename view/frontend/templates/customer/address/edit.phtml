@@ -149,7 +149,7 @@ $regionProvider = $block->getRegionProvider();
                     class="validate-select <?= $escaper->escapeHtmlAttr($_cityValidationClass) ?>"
                     id="city">
 
-                    <?php if($block->getAddress()->getCity()): ?>
+                    <?php if ($block->getAddress()->getCity()): ?>
                         <option value="<?= $escaper->escapeHtmlAttr($block->getAddress()->getCity()) ?>" selected="true">
                             <?= $escaper->escapeHtmlAttr($block->getAddress()->getCity()) ?>
                         </option>

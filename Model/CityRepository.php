@@ -22,6 +22,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+
 class CityRepository implements CityRepositoryInterface
 {
     /** @var int */
@@ -29,24 +30,34 @@ class CityRepository implements CityRepositoryInterface
 
     /** @var DataObjectHelper */
     protected $dataObjectHelper;
+
     /** @var CityFactory */
     protected $cityFactory;
+
     /** @var JoinProcessorInterface */
     protected $extensionAttributesJoinProcessor;
+
     /** @var dataCityFactory */
     protected $dataCityFactory;
+
     /** @var extensibleDataObjectConverter */
     protected $extensibleDataObjectConverter;
+
     /** @var ResourceCity */
     protected $resource;
+
     /** @var CityCollectionFactory */
     protected $cityCollectionFactory;
+
     /** @var DataObjectProcessor */
     protected $dataObjectProcessor;
+
     /** @var CollectionProcessorInterface */
     protected $collectionProcessor;
+
     /** @var searchResultsFactory */
     protected $searchResultsFactory;
+
     /** @var SearchCriteriaBuilder */
     protected $searchCriteriaBuilder;
 
@@ -61,8 +72,7 @@ class CityRepository implements CityRepositoryInterface
      * @param CollectionProcessorInterface $collectionProcessor
      * @param JoinProcessorInterface $extensionAttributesJoinProcessor
      * @param ExtensibleDataObjectConverter $extensibleDataObjectConverter
-     * @param Filter $filter
-     * @param FilterGroup $filterGroup
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         ResourceCity $resource,
@@ -189,7 +199,7 @@ class CityRepository implements CityRepositoryInterface
         /**
          * Limit response item if no query specified.
          */
-        if(!$query){
+        if (!$query) {
             $this->searchCriteriaBuilder->setPageSize(self::NO_QUERY_LIMIT);
             $this->searchCriteriaBuilder->setCurrentPage(1);
         }

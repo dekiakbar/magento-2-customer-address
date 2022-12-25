@@ -40,11 +40,14 @@ class FilterProcessorAggregator
     }
 
     /**
+     * Process filter.
+     *
      * @param string $type
      * @param Collection $collection
      * @param string $columnName
-     * @param string|array $value
-     * @throws LocalizedException
+     * @param array|string $value
+     *
+     * @return void
      */
     public function process($type, Collection $collection, $columnName, $value)
     {

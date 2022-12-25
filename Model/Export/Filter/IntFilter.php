@@ -16,9 +16,12 @@ use Deki\CustomerAddress\Model\Export\FilterProcessorInterface;
 class IntFilter implements FilterProcessorInterface
 {
     /**
+     * Process filter.
+     *
      * @param Collection $collection
      * @param string $columnName
      * @param array|string $value
+     *
      * @return void
      */
     public function process(Collection $collection, string $columnName, $value): void

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="deki_customeraddress_city" resource="default" engine="innodb" comment="deki_customeraddress_city">
+    <column xsi:type="int" name="city_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+    <column xsi:type="varchar" name="country_id" nullable="false" length="4" comment="country_id"/>
+    <column xsi:type="int" name="region_id" padding="10" unsigned="true" nullable="false" identity="false" comment="region_id"/>
+    <column xsi:type="varchar" name="name" nullable="false" length="255" comment="name"/>
+    <column xsi:type="varchar" name="postcode" nullable="true" length="20" comment="postcode"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="updated_at"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="created_at"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="city_id"/>
+    </constraint>
+    <index referenceId="DEKI_CUSTOMERADDRESS_CITY_COUNTRY_ID" indexType="btree">
+      <column name="country_id"/>
+    </index>
+    <index referenceId="DEKI_CUSTOMERADDRESS_CITY_REGION_ID" indexType="btree">
+      <column name="region_id"/>
+    </index>
+    <index referenceId="DEKI_CUSTOMERADDRESS_CITY_NAME" indexType="btree">
+      <column name="name"/>
+    </index>
+  </table>
+</schema>

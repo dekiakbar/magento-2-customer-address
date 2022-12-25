@@ -10,9 +10,7 @@ namespace Deki\CustomerAddress\Model\Export;
 use Magento\Framework\Data\Collection as AttributeCollection;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
-
 use Deki\CustomerAddress\Api\Data\CityInterface;
-
 use Deki\CustomerAddress\Model\ResourceModel\City\Collection;
 use Deki\CustomerAddress\Model\Export\ColumnProviderInterface;
 use Deki\CustomerAddress\Model\Export\CityCollectionFactoryInterface;
@@ -26,7 +24,7 @@ class CityCollectionFactory implements CityCollectionFactoryInterface
     /**
      * Source code field name
      */
-    const SOURCE_CODE_FIELD = 'source_' . CityInterface::NAME;
+    public const SOURCE_CODE_FIELD = 'source_' . CityInterface::NAME;
 
     /**
      * @var ObjectManagerInterface
@@ -59,8 +57,11 @@ class CityCollectionFactory implements CityCollectionFactoryInterface
     }
 
     /**
+     * Create collection.
+     *
      * @param AttributeCollection $attributeCollection
      * @param array $filters
+     *
      * @return Collection
      * @throws LocalizedException
      */
@@ -94,7 +95,10 @@ class CityCollectionFactory implements CityCollectionFactoryInterface
     }
 
     /**
+     * Retrieve filter data.
+     *
      * @param array $filters
+     *
      * @return array
      */
     private function retrieveFilterData(array $filters)

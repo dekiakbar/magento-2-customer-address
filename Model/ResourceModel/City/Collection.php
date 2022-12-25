@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Deki\CustomerAddress\Model\ResourceModel\City;
 
+use Deki\CustomerAddress\Model\City;
 use Magento\Framework\Exception\InvalidArgumentException;
 
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
@@ -15,7 +16,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     /**
      * @var string
      */
-    protected $_idFieldName = 'city_id';
+    protected $_idFieldName = City::CITY_ID;
 
     /**
      * Define resource model

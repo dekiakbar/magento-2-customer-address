@@ -69,7 +69,7 @@ class Common extends AbstractHelper
         
         $codeLength = 3;
 
-        if(count($words) > 1){
+        if (count($words) > 1) {
             $codeLength = 3;
         }
 

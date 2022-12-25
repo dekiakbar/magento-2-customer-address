@@ -40,7 +40,6 @@ class City extends AbstractEntity
     /** @var string */
     public const POSTCODE = 'postcode';
 
-    
     /**
      * If we should check column names
      *
@@ -306,7 +305,6 @@ class City extends AbstractEntity
                     $columnValues[$columnKey] = $row[$columnKey];
                 }
 
-                // $entityList[$rowId][] = $this->transformRegionCodeToRegionId($columnValues);
                 $entityList[$rowId][] = $columnValues;
                 $this->countItemsCreated += (int) !isset($row[self::ENTITY_ID_COLUMN]);
                 $this->countItemsUpdated += (int) isset($row[self::ENTITY_ID_COLUMN]);

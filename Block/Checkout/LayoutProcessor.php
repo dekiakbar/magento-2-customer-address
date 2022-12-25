@@ -30,7 +30,10 @@ class LayoutProcessor implements LayoutProcessorInterface
     }
 
     /**
+     * Process layout (billing address).
+     *
      * @param array $jsLayout
+     *
      * @return array
      */
     public function process($jsLayout)

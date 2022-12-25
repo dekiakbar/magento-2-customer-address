@@ -20,6 +20,11 @@ class RegionFilter extends AbstractSource
      */
     private $regions;
 
+    /**
+     * Constructor
+     *
+     * @param Allregion $regions
+     */
     public function __construct(
         Allregion $regions
     ) {
