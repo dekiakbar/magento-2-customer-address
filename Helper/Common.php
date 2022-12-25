@@ -66,11 +66,22 @@ class Common extends AbstractHelper
         }
 
         $words = preg_split("/\s+/", $regionName);
+        
+        $codeLength = 3;
+
+        if(count($words) > 1){
+            $codeLength = 3;
+        }
+
         $result = implode(
             "",
             array_map(
-                function ($word) {
-                    return strtoupper(ucwords(substr($word, 0, 1)));
+                function ($word) use ($codeLength) {
+                    return strtoupper(
+                        ucwords(
+                            substr($word, 0, $codeLength)
+                        )
+                    );
                 },
                 $words
             )
