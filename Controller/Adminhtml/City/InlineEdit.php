@@ -10,11 +10,19 @@ namespace Deki\CustomerAddress\Controller\Adminhtml\City;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\Result\Json;
+use Deki\CustomerAddress\Model\CityFactory;
 
 class InlineEdit extends \Magento\Backend\App\Action
 {
-    /** @var JsonFactory */
+    /**
+     * @var JsonFactory
+     */
     protected $jsonFactory;
+
+    /**
+     * @var CityFactory
+     */
+    protected $cityFactory;
 
     /**
      * Constructor
@@ -24,10 +32,12 @@ class InlineEdit extends \Magento\Backend\App\Action
      */
     public function __construct(
         Context $context,
-        JsonFactory $jsonFactory
+        JsonFactory $jsonFactory,
+        CityFactory $cityFactory
     ) {
         parent::__construct($context);
         $this->jsonFactory = $jsonFactory;
+        $this->cityFactory = $cityFactory;
     }
 
     /**
@@ -50,7 +60,7 @@ class InlineEdit extends \Magento\Backend\App\Action
             } else {
                 foreach (array_keys($postItems) as $modelid) {
                     /** @var \Deki\CustomerAddress\Model\City $model */
-                    $model = $this->_objectManager->create(\Deki\CustomerAddress\Model\City::class)->load($modelid);
+                    $model = $this->cityFactory->create()->load($modelid);
                     try {
                         $model->setData(array_merge($model->getData(), $postItems[$modelid]));
                         $model->save();

@@ -7,8 +7,33 @@ declare(strict_types=1);
 
 namespace Deki\CustomerAddress\Controller\Adminhtml\City;
 
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Registry;
+use Deki\CustomerAddress\Api\CityRepositoryInterface;
+
 class Delete extends \Deki\CustomerAddress\Controller\Adminhtml\City
 {
+    /**
+     * @var CityRepositoryInterface
+     */
+    protected $cityRepository;
+
+    /**
+     * Contructor
+     *
+     * @param Context $context
+     * @param Registry $coreRegistry
+     */
+    public function __construct(
+        Context $context,
+        Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct(
+            $context,
+            $coreRegistry
+        );
+    }
 
     /**
      * Delete action
@@ -24,9 +49,8 @@ class Delete extends \Deki\CustomerAddress\Controller\Adminhtml\City
         if ($id) {
             try {
                 // init model and delete
-                $model = $this->_objectManager->create(\Deki\CustomerAddress\Model\City::class);
-                $model->load($id);
-                $model->delete();
+                $city = $this->cityRepository->get($id);
+                $this->cityRepository->delete($city);
                 // display success message
                 $this->messageManager->addSuccessMessage(__('You deleted the City.'));
                 // go to grid

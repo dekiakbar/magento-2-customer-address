@@ -13,33 +13,49 @@ use Magento\Framework\App\Request\DataPersistorInterface;
 use Deki\CustomerAddress\Helper\Common;
 use Magento\Directory\Model\Region;
 use \Magento\Framework\Controller\ResultInterface;
+use Deki\CustomerAddress\Model\CityFactory;
 
 class Save extends \Magento\Backend\App\Action
 {
-    /** @var DataPersistorInterface */
+    /**
+     * @var DataPersistorInterface
+     */
     protected $dataPersistor;
-    /** @var Common */
+
+    /**
+     * @var Common
+     */
     protected $commonHelper;
-    /** @var Region */
+
+    /**
+     * @var Region
+     */
     protected $regionModel;
 
     /**
-     * Constructor
-     *
+     * @var CityFactory
+     */
+    protected $cityFactory;
+
+    
+    /**
      * @param Context $context
      * @param DataPersistorInterface $dataPersistor
      * @param Common $commonHelper
      * @param Region $regionModel
+     * @param CityFactory $cityFactory
      */
     public function __construct(
         Context $context,
         DataPersistorInterface $dataPersistor,
         Common $commonHelper,
-        Region $regionModel
+        Region $regionModel,
+        CityFactory $cityFactory
     ) {
         $this->dataPersistor = $dataPersistor;
         $this->commonHelper = $commonHelper;
         $this->regionModel = $regionModel;
+        $this->cityFactory = $cityFactory;
         parent::__construct($context);
     }
 
@@ -57,7 +73,7 @@ class Save extends \Magento\Backend\App\Action
         if ($data) {
             $id = $this->getRequest()->getParam('city_id');
         
-            $model = $this->_objectManager->create(\Deki\CustomerAddress\Model\City::class)->load($id);
+            $model = $this->cityFactory->create()->load($id);
             if (!$model->getId() && $id) {
                 $this->messageManager->addErrorMessage(__('This City no longer exists.'));
                 return $resultRedirect->setPath('*/*/');
@@ -101,6 +117,7 @@ class Save extends \Magento\Backend\App\Action
             $this->dataPersistor->set('deki_customeraddress_city', $data);
             return $resultRedirect->setPath('*/*/edit', ['city_id' => $this->getRequest()->getParam('city_id')]);
         }
+        
         return $resultRedirect->setPath('*/*/');
     }
 }

@@ -14,7 +14,9 @@ use Magento\Framework\Controller\ResultInterface;
 
 class NewAction extends \Deki\CustomerAddress\Controller\Adminhtml\City
 {
-    /** @var ForwardFactory */
+    /**
+     * @var ForwardFactory
+     */
     protected $resultForwardFactory;
 
     /**

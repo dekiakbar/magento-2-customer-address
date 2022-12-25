@@ -66,16 +66,14 @@ class MassDelete extends City implements HttpPostActionInterface
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        CityRepositoryInterface $cityRepositoryInterface = null,
-        LoggerInterface $logger = null,
+        CityRepositoryInterface $cityRepositoryInterface,
+        LoggerInterface $logger,
         Registry $coreRegistry
     ) {
         $this->filter = $filter;
         $this->collectionFactory = $collectionFactory;
-        $this->cityRepositoryInterface = $cityRepositoryInterface ?:
-            ObjectManager::getInstance()->create(CityRepositoryInterface::class);
-        $this->logger = $logger ?:
-            ObjectManager::getInstance()->create(LoggerInterface::class);
+        $this->cityRepositoryInterface = $cityRepositoryInterface;
+        $this->logger = $logger;
         parent::__construct(
             $context,
             $coreRegistry
@@ -95,12 +93,12 @@ class MassDelete extends City implements HttpPostActionInterface
         $cityDeleted = 0;
         $cityDeletedError = 0;
         /** @var \Deki\CustomerAddress\Model\City $city */
-        foreach ($collection->getItems() as $city) {
+        foreach ($collection as $city) {
             try {
                 $this->cityRepositoryInterface->delete($city);
                 $cityDeleted++;
             } catch (LocalizedException $exception) {
-                $this->logger->error($exception->getLogMessage());
+                $this->logger->error($exception->getMessage());
                 $cityDeletedError++;
             }
         }

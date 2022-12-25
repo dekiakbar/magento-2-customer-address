@@ -10,26 +10,38 @@ namespace Deki\CustomerAddress\Controller\Adminhtml\City;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
+use Deki\CustomerAddress\Api\CityRepositoryInterface;
 
 class Edit extends \Deki\CustomerAddress\Controller\Adminhtml\City
 {
-    /** @var PageFactory */
+    /**
+     * @var PageFactory
+     */
     protected $resultPageFactory;
 
     /**
-     * Constructor
-     *
+     * @var CityRepositoryInterface
+     */
+    protected $cityRepository;
+
+    /**
      * @param Context $context
      * @param Registry $coreRegistry
      * @param PageFactory $resultPageFactory
+     * @param CityRepositoryInterface $cityRepository
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        CityRepositoryInterface $cityRepository
     ) {
         $this->resultPageFactory = $resultPageFactory;
-        parent::__construct($context, $coreRegistry);
+        $this->cityRepository = $cityRepository;
+        parent::__construct(
+            $context,
+            $coreRegistry
+        );
     }
 
     /**
@@ -41,19 +53,17 @@ class Edit extends \Deki\CustomerAddress\Controller\Adminhtml\City
     {
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('city_id');
-        $model = $this->_objectManager->create(\Deki\CustomerAddress\Model\City::class);
-        
         // 2. Initial checking
         if ($id) {
-            $model->load($id);
-            if (!$model->getId()) {
+            $city = $this->cityRepository->get($id);
+            if (!$city->getCityId()) {
                 $this->messageManager->addErrorMessage(__('This City no longer exists.'));
                 /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
                 $resultRedirect = $this->resultRedirectFactory->create();
                 return $resultRedirect->setPath('*/*/');
             }
         }
-        $this->_coreRegistry->register('deki_customeraddress_city', $model);
+        $this->_coreRegistry->register('deki_customeraddress_city', $city);
         
         // 3. Build edit form
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
@@ -63,8 +73,8 @@ class Edit extends \Deki\CustomerAddress\Controller\Adminhtml\City
             $id ? __('Edit City') : __('New City')
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Citys'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ?
-            __('Edit City (ID: %1)', $model->getId()) : __('New City'));
+        $resultPage->getConfig()->getTitle()->prepend($city->getCityId() ?
+            __('Edit City (ID: %1)', $city->getCityId()) : __('New City'));
         return $resultPage;
     }
 }
